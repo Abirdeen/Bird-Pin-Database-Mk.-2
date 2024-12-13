@@ -1,0 +1,7 @@
+
+sqlite3
+peewee
+
+requests
+
+fuzzywuzzy
