@@ -1,14 +1,57 @@
 import peewee as pw
 
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar
+from typing import TypeVar, TypedDict, Generic
 
 DATABASE: str = 'pin_database.db'
 
-class table(ABC):
-        
+class BirdDict(TypedDict):
+    eBird_code: str
+    common_name: str
+    family_common_name: str
+    bird_order: str
+    family: str
+    genus: str
+    species: str
+
+class SubspeciesDict(TypedDict):
+    eBird_code: str
+    common_name: str
+    species: str
+
+class SuperorganisationDict(TypedDict):
+    name: str
+    short_name: str | None
+    description: str | None
+    website: str | None
+
+class SourceDict(TypedDict):
+    name: str
+    short_name: str | None
+    description: str | None
+    parent: str | None
+    website: str | None
+
+class SuborganisationDict(TypedDict):
+    name: str
+    short_name: str | None
+    description: str | None
+    parent: str
+    website: str | None
+
+class PinDict(TypedDict):
+    id: int | None
+    species: str
+    subspecies: str | None
+    source: str
+    suborganisation: str | None
+
+DataDict = TypeVar('DataDict', PinDict, BirdDict, SourceDict, SubspeciesDict, SuborganisationDict, SuperorganisationDict)
+
+class Table(ABC, Generic[DataDict]):
+
         def __repr__(self):
-            return '(class) table'
+            return '(class) Table'
 
         @abstractmethod
         def create(self) -> None:
@@ -19,11 +62,11 @@ class table(ABC):
             pass
 
         @abstractmethod
-        def add_data(self, data: list[dict]) -> None:
+        def add_data(self, data: list[DataDict]) -> None:
             pass
 
         @abstractmethod
-        def get_data(self) -> list[dict]:
+        def get_data(self) -> list[DataDict]:
             pass
 
 

@@ -7,7 +7,7 @@ import requests
 from fuzzywuzzy import fuzz
 #Typing, decorators, logging
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar, TypeAlias
+from typing import Callable, TypeVar, TypeAlias, TypedDict, Generic
 import logging
 #Timing functions
 import time
@@ -16,14 +16,15 @@ import time
 
 from hidden_keys import API_Keys
 
-from pin_database_schema import DATABASE, Bird, BirdSubspecies, Superorganisation, Suborganisation, Source, Pin, table
+from pin_database_schema import DATABASE
+from pin_database_schema import Bird, BirdSubspecies, Superorganisation, Suborganisation, Source, Pin
+from pin_database_schema import Table, DataDict, PinDict, BirdDict, SourceDict, SubspeciesDict, SuborganisationDict, SuperorganisationDict
 
 #Type shorthands for type hinting
 Response = requests.models.Response
-return_type = TypeVar('return_type')
-return_type_2 = TypeVar('return_type_2')
-dict_with_score: TypeAlias = tuple[dict,int]
-
+ReturnType = TypeVar('ReturnType')
+ReturnType2 = TypeVar('ReturnType2')
+DictWithScore: TypeAlias = tuple[dict,int]
 
 logger = logging.getLogger('eBird_methods')
 
@@ -55,9 +56,9 @@ def logged(print_args: bool = True):
 
 class APIClass:
     def status_test(self, response: Response, 
-                        success_function: Callable[[list[dict]],return_type], 
-                        failure_function: Callable[[int],return_type_2], 
-                        *args) -> return_type | return_type_2 | None:
+                        success_function: Callable[[list[dict]],ReturnType], 
+                        failure_function: Callable[[int],ReturnType2], 
+                        *args) -> ReturnType | ReturnType2 | None:
         if response.status_code == 200:
             data: list[dict] = response.json()
             return success_function(data, *args)
@@ -69,7 +70,7 @@ class APIClass:
     def throw_connection_error(self, status_code: int) -> None:
         print(f'Response code: {status_code}')
 
-class eBirdWeb(APIClass):
+class EBirdWeb(APIClass):
     def __init__(self) -> None:
         self.api_key: str | None = API_Keys.get('EBIRD_API_KEY')
     
@@ -87,15 +88,15 @@ class eBirdWeb(APIClass):
         return response
 
 
-class pinDatabaseInterface(ABC):
+class PinDatabaseInterface(ABC):
     def __init__(self) -> None:
         self.open_connection()
-        self.bird_table: table
-        self.bird_subspecies_table: table
-        self.superorganisation_table: table
-        self.source_table: table
-        self.suborganisation_table: table
-        self.pin_table: table
+        self.bird_table: Table[BirdDict]
+        self.bird_subspecies_table: Table[SubspeciesDict]
+        self.superorganisation_table: Table[SuperorganisationDict]
+        self.source_table: Table[SourceDict]
+        self.suborganisation_table: Table[SuborganisationDict]
+        self.pin_table: Table[PinDict]
 
     def __repr__(self):
         return '(class) Local database manager'
@@ -116,8 +117,8 @@ class pinDatabaseInterface(ABC):
         self.bird_table.drop()
         self.bird_table.create()
 
-    def process_ebird_data(self, api_data: list[dict]) -> list[dict]:
-        processed_data: list[dict] = []
+    def process_ebird_data(self, api_data: list[dict]) -> list[BirdDict]:
+        processed_data: list[BirdDict] = []
         for species_profile in filter(lambda w: w['category'] == 'species', api_data):
             processed_data.append({'eBird_code': species_profile['speciesCode'], 
                                     'common_name': species_profile['comName'], 
@@ -130,32 +131,28 @@ class pinDatabaseInterface(ABC):
 
     def update_ebird_data(self, api_data: list[dict]) -> None:
         self.clear_ebird_table()
-        processed_data: list[dict] = self.process_ebird_data(api_data)
+        processed_data: list[BirdDict] = self.process_ebird_data(api_data)
         self.bird_table.add_data(processed_data)
 
     @abstractmethod
     def close_connection(self) -> None:
         pass
 
-class pinDatabaseSQLite3(pinDatabaseInterface):
-    class sql_table(table):
+class PinDatabaseSQLite3(PinDatabaseInterface):
+    class SqlTable(Table, Generic[DataDict]):
         def __init__(self, 
                      connection: sql.Connection, cursor: sql.Cursor, 
                      name: str, 
-                     table_fields: str, table_constraints: str | None) -> None:
+                     table_fields: list[tuple[str,str]], table_constraints: list[str]) -> None:
             self.name: str = name
             self.connection = connection
             self.cursor = cursor
             self.cursor.row_factory = self.dict_factory
-            self.table_fields: str = table_fields
-            self.table_constraints: str | None = table_constraints
-            desc: str
-            if table_constraints == None:
-                desc = f'{name}({table_fields})'
-            else:
-                desc = f'{name}({table_fields}, {table_constraints})'
-            self.description = desc
-            self.no_of_cols: int = self.table_fields.count(',')+1
+            self.table_fields: list[tuple[str,str]] = table_fields
+            self.table_constraints: list[str] | None = table_constraints
+            fields_and_constraints_list: list[str] = [' '.join(field_tuple) for field_tuple in table_fields] + table_constraints
+            self.description: str =  f'{self.name}({", ".join(fields_and_constraints_list)})'
+            self.no_of_cols: int = len(self.table_fields)
             self.sql_create: str = f'CREATE TABLE IF NOT EXISTS {self.description}'
             self.sql_drop: str = f'DROP TABLE IF EXISTS {self.name}'
             self.sql_insert: str = f'INSERT OR IGNORE INTO {self.name} VALUES({"?,"*(self.no_of_cols-1)}?)'
@@ -173,68 +170,68 @@ class pinDatabaseSQLite3(pinDatabaseInterface):
             self.cursor.execute(self.sql_drop)
             self.connection.commit()
 
-        def add_data(self, data: list[dict]) -> None:
+        def add_data(self, data: list[DataDict]) -> None:
             data_as_tuples: list[tuple] = []
             for row in data:
                 data_as_tuples.append(tuple([value for value in row.values()]))
             self.cursor.executemany(self.sql_insert, data_as_tuples)
             self.connection.commit()
 
-        def get_data(self) -> list[dict]:
+        def get_data(self) -> list[DataDict]:
             return self.cursor.execute(self.sql_select).fetchall()
 
     def __init__(self) -> None:
         super().__init__()
-        self.bird_table = self.sql_table(name = 'Bird', 
+        self.bird_table = self.SqlTable[BirdDict](name = 'Bird', 
                                     connection=self.connection, cursor=self.cursor, 
-                                    table_fields = """eBird_code TEXT NOT NULL PRIMARY KEY, 
-                                                      common_name TEXT NOT NULL, 
-                                                      family_common_name TEXT NOT NULL, 
-                                                      bird_order TEXT NOT NULL, 
-                                                      family TEXT NOT NULL, 
-                                                      genus TEXT NOT NULL, 
-                                                      species TEXT NOT NULL""", 
-                                    table_constraints = None)
-        self.bird_subspecies_table = self.sql_table(name = 'BirdSubspecies', 
+                                    table_fields= [('eBird_code', 'TEXT NOT NULL PRIMARY KEY'),
+                                                ('common_name', 'TEXT NOT NULL'), 
+                                                ('family_common_name', 'TEXT NOT NULL'), 
+                                                ('bird_order', 'TEXT NOT NULL'), 
+                                                ('family', 'TEXT NOT NULL'), 
+                                                ('genus', 'TEXT NOT NULL'), 
+                                                ('species', 'TEXT NOT NULL')], 
+                                    table_constraints = [])
+        self.bird_subspecies_table = self.SqlTable[SubspeciesDict](name = 'BirdSubspecies', 
                                                 connection=self.connection, cursor=self.cursor,
-                                                table_fields="""eBird_code TEXT NOT NULL PRIMARY KEY, 
-                                                                common_name TEXT NOT NULL, 
-                                                                species TEXT NOT NULL""",
-                                                table_constraints='FOREIGN KEY(species) REFERENCES bird(eBird_code)')
-        self.superorganisation_table = self.sql_table(name = 'Superorganisation', 
+                                                table_fields=[('eBird_code', 'TEXT NOT NULL PRIMARY KEY'), 
+                                                            ('common_name', 'TEXT NOT NULL'), 
+                                                            ('species', 'TEXT NOT NULL')],
+                                                table_constraints=['FOREIGN KEY(species) REFERENCES bird(eBird_code)'])
+        self.superorganisation_table = self.SqlTable[SuperorganisationDict](name = 'Superorganisation', 
                                                 connection=self.connection, cursor=self.cursor,
-                                                table_fields="""name TEXT NOT NULL PRIMARY KEY, 
-                                                                  short_name TEXT, 
-                                                                  description TEXT, 
-                                                                  website TEXT""",
-                                                table_constraints=None)
-        self.source_table = self.sql_table(name='Source', 
+                                                table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
+                                                            ('short_name', 'TEXT'), 
+                                                            ('description', 'TEXT'), 
+                                                            ('website', 'TEXT')],
+                                                table_constraints=[])
+        self.source_table = self.SqlTable[SourceDict](name='Source', 
                                     connection=self.connection, cursor=self.cursor,
-                                    table_fields="""name TEXT NOT NULL PRIMARY KEY, 
-                                                       short_name TEXT, 
-                                                       description TEXT, 
-                                                       parent TEXT, 
-                                                       website TEXT""",
-                                    table_constraints='FOREIGN KEY(parent) REFERENCES Superorganisation(name)')
-        self.suborganisation_table = self.sql_table(name='Suborganisation', 
+                                    table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
+                                                ('short_name', 'TEXT'), 
+                                                ('description', 'TEXT'), 
+                                                ('parent', 'TEXT'), 
+                                                ('website', 'TEXT')],
+                                    table_constraints=['FOREIGN KEY(parent) REFERENCES Superorganisation(name)'])
+        self.suborganisation_table = self.SqlTable[SuborganisationDict](name='Suborganisation', 
                                                 connection=self.connection, cursor=self.cursor,
-                                                table_fields="""name TEXT NOT NULL PRIMARY KEY, 
-                                                                short_name TEXT, 
-                                                                description TEXT, 
-                                                                parent TEXT NOT NULL, 
-                                                                website TEXT""",
-                                                table_constraints='FOREIGN KEY(parent) REFERENCES Source(name)')
-        self.pin_table = self.sql_table(name = 'Pin', 
+                                                table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
+                                                            ('short_name', 'TEXT'), 
+                                                            ('description', 'TEXT'), 
+                                                            ('parent', 'TEXT NOT NULL'), 
+                                                            ('website', 'TEXT')],
+                                                table_constraints=['FOREIGN KEY(parent) REFERENCES Source(name)'])
+        self.pin_table = self.SqlTable[PinDict](name = 'Pin', 
                                     connection=self.connection, cursor=self.cursor,
-                                    table_fields="""id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                                    species TEXT NOT NULL, 
-                                                    subspecies TEXT, 
-                                                    source TEXT NOT NULL, 
-                                                    suborganisation TEXT""",
-                                    table_constraints="""FOREIGN KEY(species) REFERENCES Bird(eBird_code), 
-                                                         FOREIGN KEY(subspecies) REFERENCES BirdSubspecies(eBird_code), 
-                                                         FOREIGN KEY(source) REFERENCES Source(name), 
-                                                         FOREIGN KEY(suborganisation) REFERENCES Suborganisation(name)""")
+                                    table_fields=[('id', 'INTEGER PRIMARY KEY AUTOINCREMENT'), 
+                                                ('species', 'TEXT NOT NULL'), 
+                                                ('subspecies', 'TEXT'), 
+                                                ('source', 'TEXT NOT NULL'), 
+                                                ('suborganisation', 'TEXT')], 
+                                    table_constraints=['FOREIGN KEY(species) REFERENCES Bird(eBird_code)', 
+                                                    'FOREIGN KEY(subspecies) REFERENCES BirdSubspecies(eBird_code)', 
+                                                    'FOREIGN KEY(source) REFERENCES Source(name)', 
+                                                    'FOREIGN KEY(suborganisation) REFERENCES Suborganisation(name)'])
 
     def open_connection(self) -> None:
         self.connection: sql.Connection = sql.connect(DATABASE)
@@ -243,8 +240,8 @@ class pinDatabaseSQLite3(pinDatabaseInterface):
     def close_connection(self) -> None:
         self.connection.close()
 
-class pinDatabasePeewee(pinDatabaseInterface):
-    class peewee_table(table):
+class PinDatabasePeewee(PinDatabaseInterface):
+    class PeeweeTable(Table, Generic[DataDict]):
         def __init__(self, database: pw.SqliteDatabase, model: type[pw.Model]):
             self.db = database
             self.model = model
@@ -255,16 +252,16 @@ class pinDatabasePeewee(pinDatabaseInterface):
         def drop(self) -> None:
             self.db.drop_tables([self.model])
 
-        def add_data(self, data: list[dict]) -> None:
+        def add_data(self, data: list[DataDict]) -> None:
             #Chunk the data to get around SQL insert_many limits
             chunks = [data[x:x+100] for x in range(0, len(data), 100)]
             for chunk in chunks:
                 self.model.insert_many(chunk).execute()
 
         @logged()
-        def get_data(self) -> list[dict]:
+        def get_data(self) -> list[DataDict]:
             query = self.model.select()
-            data: list[dict] = []
+            data: list[DataDict] = []
             for row in query.dicts().iterator():
                 data.append(row)
             return data
@@ -272,12 +269,12 @@ class pinDatabasePeewee(pinDatabaseInterface):
     def __init__(self) -> None:
         self.db: pw.SqliteDatabase = pw.SqliteDatabase(DATABASE)
         super().__init__()
-        self.bird_table = self.peewee_table(self.db, Bird)
-        self.bird_subspecies_table = self.peewee_table(self.db, BirdSubspecies)
-        self.superorganisation_table = self.peewee_table(self.db, Superorganisation)
-        self.source_table = self.peewee_table(self.db, Source)
-        self.suborganisation_table = self.peewee_table(self.db, Suborganisation)
-        self.pin_table = self.peewee_table(self.db, Pin)
+        self.bird_table = self.PeeweeTable[BirdDict](database=self.db, model=Bird)
+        self.bird_subspecies_table = self.PeeweeTable[SubspeciesDict](database=self.db, model=BirdSubspecies)
+        self.superorganisation_table = self.PeeweeTable[SuperorganisationDict](database=self.db, model=Superorganisation)
+        self.source_table = self.PeeweeTable[SourceDict](database=self.db, model=Source)
+        self.suborganisation_table = self.PeeweeTable[SuborganisationDict](database=self.db, model=Suborganisation)
+        self.pin_table = self.PeeweeTable[PinDict](database=self.db, model=Pin)
 
     def open_connection(self) -> None:
         self.db.connect()
@@ -285,23 +282,23 @@ class pinDatabasePeewee(pinDatabaseInterface):
     def close_connection(self) -> None:
         self.db.close()
 
-def pinDatabaseFactory() -> pinDatabaseInterface:
-    return pinDatabaseSQLite3()
-    # return pinDatabasePeewee()
+def pinDatabaseFactory() -> PinDatabaseInterface:
+    return PinDatabaseSQLite3()
+    # return PinDatabasePeewee()
 
-class eBirdBridge:
+class EBirdBridge:
     def __init__(self) ->  None:
-        self.eBirdWeb = eBirdWeb()
-        self.LocalDBInterface: pinDatabaseInterface = pinDatabaseFactory()
+        self.EBirdWeb = EBirdWeb()
+        self.LocalDBInterface: PinDatabaseInterface = pinDatabaseFactory()
 
     def __repr__(self):
         return '(class) eBird Bridge'
 
     def update_database(self) -> None:
-        response: Response = self.eBirdWeb.get_data()
-        self.eBirdWeb.status_test(response=response, 
+        response: Response = self.EBirdWeb.get_data()
+        self.EBirdWeb.status_test(response=response, 
                                     success_function=self.LocalDBInterface.update_ebird_data, 
-                                    failure_function=self.eBirdWeb.throw_connection_error)
+                                    failure_function=self.EBirdWeb.throw_connection_error)
         
     def retrieve_subspecies(self):
         pass
@@ -310,35 +307,35 @@ class eBirdBridge:
         self.LocalDBInterface.close_connection()
 
 
-class userBridge:
+class UserBridge:
     @logged(print_args=False)
     def fuzzy_search(self, test_name: str, 
                             database: list[dict], 
-                            check_type: str,
-                            threshold: int = 80) -> list[dict_with_score]:
+                            attribute: str,
+                            threshold: int = 80) -> list[DictWithScore]:
         '''
-        >>> userLocalDBBridge.species_fuzzy_search(test_name = 'Maroon Pigeon', database = [{'common_name': 'Short-toed Coucal'}, {'common_name': 'Rameron Pigeon'}], check_type = 'common_name')
+        >>> UserLocalDBBridge.species_fuzzy_search(test_name = 'Maroon Pigeon', database = [{'common_name': 'Short-toed Coucal'}, {'common_name': 'Rameron Pigeon'}], check_type = 'common_name')
         [({'common_name': 'Rameron Pigeon'},85)]
         '''
-        matching_data: list[dict_with_score] = []
+        matching_data: list[DictWithScore] = []
         for data in database:
-            ratio = fuzz.partial_ratio(test_name,data[check_type])
+            ratio = fuzz.partial_ratio(test_name,data[attribute])
             if ratio >= threshold:
                 matching_data.append((data,ratio))
         return matching_data
 
-class userLocalDBBridge(userBridge):
-    def __init__(self):
-        self.LocalDBInterface: pinDatabaseInterface = pinDatabaseFactory()
-        self.eBirdDB: table = self.LocalDBInterface.bird_table
+class UserLocalDBBridge(UserBridge):
+    def __init__(self) -> None:
+        self.LocalDBInterface: PinDatabaseInterface = pinDatabaseFactory()
+        self.eBirdDB: Table[BirdDict] = self.LocalDBInterface.bird_table
         super().__init__()
 
     def __repr__(self):
         return '(class) Local Database Bridge'
 
-    def fuzzy_search_species_ebird(self, test_name: str, threshold: int = 80) -> list[dict_with_score]:
-        database: list[dict] = self.eBirdDB.get_data()
-        return self.fuzzy_search(test_name=test_name, database=database, check_type='common_name', threshold=threshold)
+    def fuzzy_search_species_ebird(self, test_name: str, threshold: int = 80) -> list[DictWithScore]:
+        database: list[BirdDict] = self.eBirdDB.get_data()
+        return self.fuzzy_search(test_name=test_name, database=database, attribute='common_name', threshold=threshold)
 
 @logged()
 def main(auto_test: bool = False):
@@ -346,29 +343,30 @@ def main(auto_test: bool = False):
         import doctest
         doctest.testmod()
         return None
-    
-    ebridge = eBirdBridge()
-    ubridge = userLocalDBBridge()
+
+
+    # ebridge = EBirdBridge()
+    # ubridge = UserLocalDBBridge()
 
     # ebridge.update_database()
     
-    print(ebridge.eBirdLocalDB.bird_table.get_data()[1000])
+    # print(ubridge.eBirdDB.get_data()[1000])
     
     # data = {'eBird_code': 'ostric2', 'common_name': 'Common Ostrich', 'family_common_name': 'Ostriches', 'bird_order': 'Struthioniformes', 'family': 'Struthionidae', 'genus': 'Struthio', 'species': 'camelus'}
     #
-    print(ubridge.species_fuzzy_search('Maroon Pigeon', ebridge.eBirdLocalDB.bird_table.get_data(), 80))
+    # print(ubridge.fuzzy_search_species_ebird(test_name = 'Woodpigeon', threshold=90))
     # 
-    # api = eBirdWeb()
+    # api = EBirdWeb()
     # print(','.join(api.get_subspecies_codes('cangoo').json()))
     pass
     
 if __name__ == '__main__':
     logging.basicConfig(filename='eBird_methods.log', level=logging.INFO)
-    logger.info(f'---------------------------------------- \n begin log')
+    logger.info(f'{"begin log":{"-"}^40}')
     try:
-        main(True)
+        main()
     except Exception as err:
         logger.exception(f'Got exception on main handler: {err}')
         raise
     finally:
-        logger.info(f'end log \n ----------------------------------------')
+        logger.info(f'{"end log":{"-"}^40}')
