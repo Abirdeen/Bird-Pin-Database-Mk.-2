@@ -462,6 +462,19 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.species_frame_dropdown.grid_forget()
         self.picked_species_label.configure(text = picked_option)
         self.species_frame_confirmed.grid(**self.SPECIES_FRAME_LOCATION)
+
+        species_code: str = self.picked_species_data['eBird_code']
+        bridge = EBirdBridge()
+        possible_subspecies: Optional[list[SubspeciesDict]] = bridge.retrieve_subspecies(species_code)
+        bridge.close_connection()        
+        if possible_subspecies is None:
+            raise ConnectionError('Something went wrong while connecting to eBird')
+        if len(possible_subspecies) == 1:
+            self._subspecies_toggle.configure(state=ctk.DISABLED)
+        else:
+            self._subspecies_toggle.configure(state=ctk.NORMAL)
+        self.possible_subspecies: list[SubspeciesDict] = possible_subspecies
+        self._add_subspecies_to_menu(self.possible_subspecies)
         return None
 
     def _subspecies_toggle_pressed(self) -> None:
@@ -469,15 +482,6 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         if not state:
             self.subspecies_frame_parent.grid_forget()
             return None
-        if self._subspecies_dropdown.cget('values') == []:
-            species_code: str = self.picked_species_data['eBird_code']
-            bridge = EBirdBridge()
-            possible_subspecies: Optional[list[SubspeciesDict]] = bridge.retrieve_subspecies(species_code)
-            if possible_subspecies is None:
-                raise ConnectionError('Something went wrong while connecting to eBird')
-            self.possible_subspecies: list[SubspeciesDict] = possible_subspecies
-            self._add_subspecies_to_menu(self.possible_subspecies)
-            bridge.close_connection()
         self.subspecies_frame_parent.grid(**self.SUBSPECIES_FRAME_LOCATION)
         return None
 
@@ -526,6 +530,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _subgroup_toggle_pressed(self) -> None:
+
         raise NotImplementedError
 
     def _confirm_subgroup_pressed(self) -> None:
