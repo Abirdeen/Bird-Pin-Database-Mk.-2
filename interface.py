@@ -538,7 +538,13 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _confirm_subgroup_pressed(self) -> None:
-        raise NotImplementedError
+        picked_subgroup: str = self._subgroup_dropdown.get()
+        if picked_subgroup == '':
+            return None
+        self.picked_subgroup_label.configure(text=picked_subgroup)
+        self.subgroup_frame_initial.grid_forget()
+        self.subgroup_frame_confirmed.grid(row=0, column=1)
+        return None
 
     def _validate_button_pressed(self) -> None:
         raise NotImplementedError
