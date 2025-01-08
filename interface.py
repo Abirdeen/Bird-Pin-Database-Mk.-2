@@ -490,9 +490,13 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _source_type_dropdown_changed(self, source_type: Literal['Charity', 'Artist', 'Other']) -> None:
         bridge = UserLocalDBBridge()
         source_list: list[SourceDict] = bridge.retrieve_sources(source_type)
+        if source_list == []:
+            self.source_dropdown.configure(state=ctk.DISABLED)
+            return None
         options: list[str] = []
         for source in source_list:
             options.append(source['name'])
+        self.source_dropdown.configure(state=ctk.NORMAL)
         self.source_dropdown.configure(values=options)
         return None
 
