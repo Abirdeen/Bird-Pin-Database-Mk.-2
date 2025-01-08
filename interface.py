@@ -466,6 +466,8 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.species_frame_dropdown.grid_forget()
         self.picked_species_label.configure(text = picked_option)
         self.species_frame_confirmed.grid(**self.SPECIES_FRAME_LOCATION)
+        self.species_confirmed = True
+        self._try_activate_validate_button()
 
         species_code: str = self.picked_species_data['eBird_code']
         bridge = EBirdBridge()
@@ -527,6 +529,8 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.picked_source_label.configure(text=picked_source)
         self.source_frame_initial.grid_forget()
         self.source_frame_confirmed.grid(**self.SOURCE_FRAME_LOCATION)
+        self.source_confirmed = True
+        self._try_activate_validate_button()
 
         bridge = UserLocalDBBridge()
         subgroups: list[SubgroupDict] = bridge.retrieve_subgroups(picked_source)
