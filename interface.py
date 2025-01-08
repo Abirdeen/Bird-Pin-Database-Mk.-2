@@ -189,7 +189,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                     width=self.BUTTON_WIDTH, 
                                                     command=self._find_species_pressed)
         self._species_find_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
-        self.species_error_label = ctk.CTkLabel(self.species_frame_initial, text='TEST', text_color='red', 
+        self.species_error_label = ctk.CTkLabel(self.species_frame_initial, text='', text_color='red', 
                                                 font=ctk.CTkFont(family="Arial", size=10))
         self.species_error_label.grid_configure(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
         return None
@@ -200,6 +200,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                 variable=self.picked_species,
                                                 width=self.LONG_BOX_WIDTH)
         self._species_dropdown.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
+        self.species_confirmed: bool = False
         self._species_confirm_button = ctk.CTkButton(self.species_frame_dropdown, text='Confirm',
                                                     width=self.BUTTON_WIDTH,
                                                     command=self._confirm_species_pressed)
@@ -250,8 +251,10 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.source_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
                                                values=[], 
                                                variable=self.picked_source, 
+                                               command=self._source_dropdown_activated,
                                                state=ctk.DISABLED)
         self.source_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['SOURCE_DROPDOWN_LOCATION'])     
+        self.source_confirmed: bool = False
         self._source_confirm_button = ctk.CTkButton(self.source_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
@@ -394,9 +397,6 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self._validate_button.grid(**self.VALIDATE_BUTTON_LOCATION)
 
 
-    def _test(self) -> None:
-        print('not implemented')
-
     def _search_in_database(self, test_name: str) -> list[DictWithScore[BirdDict]]:
         bridge = UserLocalDBBridge()
         possible_species_with_scores: list[DictWithScore[BirdDict]] = bridge.fuzzy_search_species_ebird(test_name)
@@ -423,6 +423,12 @@ class ScreenEnterNewPin(ctk.CTkFrame):
             dropdown_options.append(subgroup['name'])
         self._subgroup_dropdown.configure(values = dropdown_options)
         return None
+
+    def _try_activate_validate_button(self) -> None:
+        if self.source_confirmed and self.species_confirmed:
+            self._validate_button.configure(state=ctk.NORMAL)
+        return None
+
 
     def _find_species_pressed(self) -> None:
         self.species_error_label.grid_forget()
@@ -506,6 +512,12 @@ class ScreenEnterNewPin(ctk.CTkFrame):
             options.append(source['name'])
         self.source_dropdown.configure(state=ctk.NORMAL)
         self.source_dropdown.configure(values=options)
+        return None
+
+    def _source_dropdown_activated(self, source: str) -> None:
+        if not source:
+            return None
+        self._source_confirm_button.configure(state=ctk.NORMAL)
         return None
 
     def _confirm_source_pressed(self) -> None:
