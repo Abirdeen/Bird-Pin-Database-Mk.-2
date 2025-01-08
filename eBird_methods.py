@@ -385,6 +385,13 @@ class UserLocalDBBridge(UserBridge):
         for source in filter(lambda x: x['type'] == source_type, unfiltered_data):
             filtered_data.append(source)
         return filtered_data
+    
+    def retrieve_subgroups(self, source: str) -> list[SubgroupDict]:
+        unfiltered_data: list[SubgroupDict] = self.LocalDBInterface.subgroup_table.get_data()
+        filtered_data: list[SubgroupDict] = []
+        for subgroup in filter(lambda x: x['parent'] == source, unfiltered_data):
+            filtered_data.append(subgroup)
+        return filtered_data
 
     def close_connection(self) -> None:
         self.LocalDBInterface.close_connection()
