@@ -244,14 +244,12 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.source_type_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
                                                    values=['Charity', 'Artist', 'Other'], 
                                                    variable=self.picked_source_type,
-                                                   command=self._source_type_dropdown_changed,
-                                                   width=self.BUTTON_WIDTH)
+                                                   command=self._source_type_dropdown_changed)
         self.source_type_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['TYPE_DROPDOWN_LOCATION'])    
         self.picked_source = ctk.StringVar()
         self.source_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
                                                values=[], 
-                                               variable=self.picked_source,
-                                               width=self.BUTTON_WIDTH, 
+                                               variable=self.picked_source, 
                                                state=ctk.DISABLED)
         self.source_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['SOURCE_DROPDOWN_LOCATION'])     
         self._source_confirm_button = ctk.CTkButton(self.source_frame_initial, 
@@ -470,9 +468,8 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         if possible_subspecies is None:
             raise ConnectionError('Something went wrong while connecting to eBird')
         if len(possible_subspecies) == 1:
-            self._subspecies_toggle.configure(state=ctk.DISABLED)
-        else:
-            self._subspecies_toggle.configure(state=ctk.NORMAL)
+            self._subspecies_toggle.grid_forget()
+            return None
         self.possible_subspecies: list[SubspeciesDict] = possible_subspecies
         self._add_subspecies_to_menu(self.possible_subspecies)
         return None
@@ -523,9 +520,8 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         subgroups: list[SubgroupDict] = bridge.retrieve_subgroups(picked_source)
         bridge.close_connection()
         if subgroups == []:
-            self._subgroup_toggle.configure(state=ctk.DISABLED)
+            self._subgroup_toggle.grid_forget()
             return None
-        self._subgroup_toggle.configure(state=ctk.NORMAL)
         self._add_subgroups_to_menu(subgroups)
         return None
 
