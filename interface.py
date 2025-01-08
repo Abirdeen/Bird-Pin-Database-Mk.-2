@@ -8,7 +8,7 @@ from PIL import Image
 import customtkinter as ctk
 
 from eBird_methods import UserLocalDBBridge, EBirdBridge
-from eBird_methods import DictWithScore, SubspeciesDict, BirdDict
+from eBird_methods import DataDict, DictWithScore, BirdDict, SubspeciesDict, SupergroupDict, SourceDict, SubgroupDict, PinDict
 
 logger = logging.getLogger('interface')
 
@@ -488,13 +488,13 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _source_type_dropdown_changed(self, source_type: Literal['Charity', 'Artist', 'Other']) -> None:
-        raise NotImplementedError
-        if source_type == 'Charity':
-            return None
-        if source_type == 'Artist':
-            return None
-        if source_type == 'Other':
-            return None
+        bridge = UserLocalDBBridge()
+        source_list: list[SourceDict] = bridge.retrieve_sources(source_type)
+        options: list[str] = []
+        for source in source_list:
+            options.append(source['name'])
+        self.source_dropdown.configure(values=options)
+        return None
 
     def _confirm_source_pressed(self) -> None:
         raise NotImplementedError
