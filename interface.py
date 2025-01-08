@@ -547,7 +547,35 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _validate_button_pressed(self) -> None:
-        raise NotImplementedError
+        picked_species: str = self._species_dropdown.get()
+        is_subspecies: bool = self._subspecies_toggle.get()
+        if is_subspecies:
+            picked_subspecies: str = self._subspecies_dropdown.get()
+        picked_source: str = self.source_dropdown.get()
+        is_subgroup: bool = self._subgroup_toggle.get()
+        if is_subgroup:
+            picked_subgroup: str = self._subgroup_dropdown.get()
+        pin: PinDict
+        # Splitting into cases so can return an appropriate error message later.
+        if not picked_species:
+            return None
+        if is_subspecies and not picked_subspecies:
+            return None
+        if not picked_source:
+            return None
+        if is_subgroup and not picked_subgroup:
+            return None
+        pin = {'id': None, 
+               'species': picked_species, 
+               'subspecies': picked_subspecies, 
+               'source': picked_source,
+               'subgroup': picked_subgroup}
+        
+        bridge = UserLocalDBBridge()
+        bridge.LocalDBInterface.pin_table.add_data([pin])
+        bridge.close_connection()
+
+        return None
 
 class ScreenEditPin(ctk.CTkFrame):
 
