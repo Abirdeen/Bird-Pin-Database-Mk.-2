@@ -20,7 +20,7 @@ class SubspeciesDict(TypedDict):
     subspecies: str
     species: str
 
-class SuperorganisationDict(TypedDict):
+class SupergroupDict(TypedDict):
     name: str
     short_name: str | None
     description: str | None
@@ -33,7 +33,7 @@ class SourceDict(TypedDict):
     parent: str | None
     website: str | None
 
-class SuborganisationDict(TypedDict):
+class SubgroupDict(TypedDict):
     name: str
     short_name: str | None
     description: str | None
@@ -45,9 +45,9 @@ class PinDict(TypedDict):
     species: str
     subspecies: str | None
     source: str
-    suborganisation: str | None
+    subgroup: str | None
 
-DataDict = TypeVar('DataDict', PinDict, BirdDict, SourceDict, SubspeciesDict, SuborganisationDict, SuperorganisationDict)
+DataDict = TypeVar('DataDict', PinDict, BirdDict, SourceDict, SubspeciesDict, SubgroupDict, SupergroupDict)
 
 class Table(ABC, Generic[DataDict]):
 
@@ -94,7 +94,7 @@ class BirdSubspecies(pw.Model):
     class Meta:
         database = db
 
-class Superorganisation(pw.Model):
+class Supergroup(pw.Model):
     name = pw.CharField(primary_key=True)
     short_name = pw.CharField(null=True)
     description = pw.CharField(null=True)
@@ -107,17 +107,17 @@ class Source(pw.Model):
     name = pw.CharField(primary_key=True)
     short_name = pw.CharField(null=True)
     description = pw.CharField(null=True)
-    parent = pw.ForeignKeyField(Superorganisation, backref='superorganisations', null=True)
+    parent = pw.ForeignKeyField(Supergroup, backref='supergroups', null=True)
     website = pw.CharField(null=True)
 
     class Meta:
         database = db
 
-class Suborganisation(pw.Model):
+class Subgroup(pw.Model):
     name = pw.CharField(primary_key=True)
     short_name = pw.CharField(null=True)
     description = pw.CharField(null=True)
-    parent = pw.ForeignKeyField(Source, backref='suborganisations')
+    parent = pw.ForeignKeyField(Source, backref='subgroups')
     website = pw.CharField(null=True)
 
     class Meta:
@@ -127,7 +127,7 @@ class Pin(pw.Model):
     species = pw.ForeignKeyField(Bird, backref='pins')
     subspecies = pw.ForeignKeyField(BirdSubspecies, backref='pins', null=True)
     source = pw.ForeignKeyField(Source, backref='pins')
-    suborganisation = pw.ForeignKeyField(Suborganisation, backref='pins', null=True)
+    subgroup = pw.ForeignKeyField(Subgroup, backref='pins', null=True)
 
     class Meta:
         database = db

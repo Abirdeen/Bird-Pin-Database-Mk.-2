@@ -264,31 +264,31 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _layout_source_frame_confirmed(self) -> None:
         self.picked_source_label = ctk.CTkLabel(self.source_frame_confirmed, text='')
         self.picked_source_label.grid(**self.SOURCE_FRAME_LAYOUT['LONG_LABEL_LOCATION'])
-        self.suborg_toggle_var = ctk.BooleanVar(value=False)
-        self._suborg_toggle = ctk.CTkSwitch(self.source_frame_confirmed, text='Suborg?',
-                                               variable=self.suborg_toggle_var,
-                                               command=self._suborg_toggle_pressed)
-        self._suborg_toggle.grid(**self.SOURCE_FRAME_LAYOUT['BUTTON_LOCATION'])
+        self.subgroup_toggle_var = ctk.BooleanVar(value=False)
+        self._subgroup_toggle = ctk.CTkSwitch(self.source_frame_confirmed, text='Subgroup?',
+                                               variable=self.subgroup_toggle_var,
+                                               command=self._subgroup_toggle_pressed)
+        self._subgroup_toggle.grid(**self.SOURCE_FRAME_LAYOUT['BUTTON_LOCATION'])
         return None
 
 
-    def _layout_suborg_frame_initial(self) -> None:
-        self.picked_suborg = ctk.StringVar()
-        self.suborg_dropdown = ctk.CTkComboBox(self.suborg_frame_initial, 
+    def _layout_subgroup_frame_initial(self) -> None:
+        self.picked_subgroup = ctk.StringVar()
+        self.subgroup_dropdown = ctk.CTkComboBox(self.subgroup_frame_initial, 
                                                values=[], 
-                                               variable=self.picked_suborg,
+                                               variable=self.picked_subgroup,
                                                width=self.BUTTON_WIDTH)
-        self.suborg_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
-        self._suborg_confirm_button = ctk.CTkButton(self.suborg_frame_initial, 
+        self.subgroup_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
+        self._subgroup_confirm_button = ctk.CTkButton(self.subgroup_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
-                                                       command=self._confirm_suborg_pressed)
-        self._suborg_confirm_button.grid(**self.SUBORG_FRAME_LAYOUT['BUTTON_LOCATION']) 
+                                                       command=self._confirm_subgroup_pressed)
+        self._subgroup_confirm_button.grid(**self.SUBORG_FRAME_LAYOUT['BUTTON_LOCATION']) 
         return None         
     
-    def _layout_suborg_frame_confirmed(self) -> None:
-        self.picked_suborg_label = ctk.CTkLabel(self.suborg_frame_confirmed, text='')
-        self.picked_suborg_label.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])
+    def _layout_subgroup_frame_confirmed(self) -> None:
+        self.picked_subgroup_label = ctk.CTkLabel(self.subgroup_frame_confirmed, text='')
+        self.picked_subgroup_label.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])
         return None
 
 
@@ -368,16 +368,16 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self._layout_source_frame_confirmed()
 
         # Possible states for the fourth row
-        self.suborg_frame_parent = ctk.CTkFrame(self)
-        self.suborg_label = ctk.CTkLabel(self.suborg_frame_parent, text='Suborganisation: ')
+        self.subgroup_frame_parent = ctk.CTkFrame(self)
+        self.subgroup_label = ctk.CTkLabel(self.subgroup_frame_parent, text='Subgroup: ')
 
-        self.suborg_frame_initial = ctk.CTkFrame(self.suborg_frame_parent)
-        self._layout_suborg_frame_initial()
-        self.suborg_frame_confirmed = ctk.CTkFrame(self.suborg_frame_parent)
-        self._layout_suborg_frame_confirmed()
+        self.subgroup_frame_initial = ctk.CTkFrame(self.subgroup_frame_parent)
+        self._layout_subgroup_frame_initial()
+        self.subgroup_frame_confirmed = ctk.CTkFrame(self.subgroup_frame_parent)
+        self._layout_subgroup_frame_confirmed()
 
-        self.suborg_label.grid(row=0, column=0)
-        self.suborg_frame_initial.grid(row=0, column=1)
+        self.subgroup_label.grid(row=0, column=0)
+        self.subgroup_frame_initial.grid(row=0, column=1)
 
         # Fifth row
         self._validate_button = ctk.CTkButton(self, text='Validate', 
@@ -489,10 +489,10 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _confirm_source_pressed(self) -> None:
         raise NotImplementedError
 
-    def _suborg_toggle_pressed(self) -> None:
+    def _subgroup_toggle_pressed(self) -> None:
         raise NotImplementedError
 
-    def _confirm_suborg_pressed(self) -> None:
+    def _confirm_subgroup_pressed(self) -> None:
         raise NotImplementedError
 
     def _validate_button_pressed(self) -> None:

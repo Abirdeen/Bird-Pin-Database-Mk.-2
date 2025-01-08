@@ -17,8 +17,8 @@ import time
 from hidden_keys import API_Keys
 
 from pin_database_schema import DATABASE
-from pin_database_schema import Bird, BirdSubspecies, Superorganisation, Suborganisation, Source, Pin
-from pin_database_schema import Table, DataDict, PinDict, BirdDict, SourceDict, SubspeciesDict, SuborganisationDict, SuperorganisationDict
+from pin_database_schema import Bird, BirdSubspecies, Supergroup, Subgroup, Source, Pin
+from pin_database_schema import Table, DataDict, PinDict, BirdDict, SourceDict, SubspeciesDict, SubgroupDict, SupergroupDict
 
 #Type shorthands for type hinting
 Response = requests.models.Response
@@ -129,9 +129,9 @@ class PinDatabaseInterface(ABC):
         self._open_connection()
         self.bird_table: Table[BirdDict]
         self.bird_subspecies_table: Table[SubspeciesDict]
-        self.superorganisation_table: Table[SuperorganisationDict]
+        self.supergroup_table: Table[SupergroupDict]
         self.source_table: Table[SourceDict]
-        self.suborganisation_table: Table[SuborganisationDict]
+        self.subgroup_table: Table[SubgroupDict]
         self.pin_table: Table[PinDict]
 
     def __repr__(self):
@@ -144,9 +144,9 @@ class PinDatabaseInterface(ABC):
     def initialise_database(self) -> None:
         self.bird_table.create()
         self.bird_subspecies_table.create()
-        self.suborganisation_table.create()
+        self.subgroup_table.create()
         self.source_table.create()
-        self.suborganisation_table.create()
+        self.subgroup_table.create()
         self.pin_table.create()
 
     def _clear_ebird_table(self) -> None:
@@ -235,7 +235,7 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
                                                             ('subspecies', 'TEXT NOT NULL'),
                                                             ('species', 'TEXT NOT NULL')],
                                                 table_constraints=['FOREIGN KEY(species) REFERENCES bird(eBird_code)'])
-        self.superorganisation_table = self.SqlTable[SuperorganisationDict](name = 'Superorganisation', 
+        self.supergroup_table = self.SqlTable[SupergroupDict](name = 'Supergroup', 
                                                 connection=self.connection, cursor=self.cursor,
                                                 table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
                                                             ('short_name', 'TEXT'), 
@@ -249,8 +249,8 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
                                                 ('description', 'TEXT'), 
                                                 ('parent', 'TEXT'), 
                                                 ('website', 'TEXT')],
-                                    table_constraints=['FOREIGN KEY(parent) REFERENCES Superorganisation(name)'])
-        self.suborganisation_table = self.SqlTable[SuborganisationDict](name='Suborganisation', 
+                                    table_constraints=['FOREIGN KEY(parent) REFERENCES Supergroup(name)'])
+        self.subgroup_table = self.SqlTable[SubgroupDict](name='Subgroup', 
                                                 connection=self.connection, cursor=self.cursor,
                                                 table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
                                                             ('short_name', 'TEXT'), 
@@ -264,11 +264,11 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
                                                 ('species', 'TEXT NOT NULL'), 
                                                 ('subspecies', 'TEXT'), 
                                                 ('source', 'TEXT NOT NULL'), 
-                                                ('suborganisation', 'TEXT')], 
+                                                ('subgroup', 'TEXT')], 
                                     table_constraints=['FOREIGN KEY(species) REFERENCES Bird(eBird_code)', 
                                                     'FOREIGN KEY(subspecies) REFERENCES BirdSubspecies(eBird_code)', 
                                                     'FOREIGN KEY(source) REFERENCES Source(name)', 
-                                                    'FOREIGN KEY(suborganisation) REFERENCES Suborganisation(name)'])
+                                                    'FOREIGN KEY(subgroup) REFERENCES Subgroup(name)'])
 
     def _open_connection(self) -> None:
         self.connection: sql.Connection = sql.connect(DATABASE)
@@ -308,9 +308,9 @@ class PinDatabasePeewee(PinDatabaseInterface):
         super().__init__()
         self.bird_table = self.PeeweeTable[BirdDict](database=self.db, model=Bird)
         self.bird_subspecies_table = self.PeeweeTable[SubspeciesDict](database=self.db, model=BirdSubspecies)
-        self.superorganisation_table = self.PeeweeTable[SuperorganisationDict](database=self.db, model=Superorganisation)
+        self.supergroup_table = self.PeeweeTable[SupergroupDict](database=self.db, model=Supergroup)
         self.source_table = self.PeeweeTable[SourceDict](database=self.db, model=Source)
-        self.suborganisation_table = self.PeeweeTable[SuborganisationDict](database=self.db, model=Suborganisation)
+        self.subgroup_table = self.PeeweeTable[SubgroupDict](database=self.db, model=Subgroup)
         self.pin_table = self.PeeweeTable[PinDict](database=self.db, model=Pin)
 
     def _open_connection(self) -> None:
