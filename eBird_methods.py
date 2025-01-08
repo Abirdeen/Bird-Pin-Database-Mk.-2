@@ -7,7 +7,7 @@ import requests
 from fuzzywuzzy import fuzz
 #Typing, decorators, logging
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar, TypeAlias, TypedDict, Generic
+from typing import Callable, TypeVar, TypeAlias, Generic, Optional, Sequence
 import logging
 #Timing functions
 import time
@@ -22,9 +22,10 @@ from pin_database_schema import Table, DataDict, PinDict, BirdDict, SourceDict, 
 
 #Type shorthands for type hinting
 Response = requests.models.Response
+ResponseJson = TypeVar('ResponseJson')
 ReturnType = TypeVar('ReturnType')
-ReturnType2 = TypeVar('ReturnType2')
-DictWithScore: TypeAlias = tuple[dict,int]
+DictWithScore: TypeAlias = tuple[DataDict,int]
+
 
 logger = logging.getLogger('eBird_methods')
 
@@ -55,20 +56,24 @@ def logged(print_args: bool = True):
     return logged_decorator
 
 class APIClass:
-    def status_test(self, response: Response, 
-                        success_function: Callable[[list[dict]],ReturnType], 
-                        failure_function: Callable[[int],ReturnType2], 
-                        *args) -> ReturnType | ReturnType2 | None:
+    def status_test(self, response: Response | None, 
+                        success_function: Callable[[ResponseJson],ReturnType], 
+                        failure_function: Callable[[int],None], 
+                        *args) -> ReturnType | None:
+        if response is None:
+            return None
         if response.status_code == 200:
-            data: list[dict] = response.json()
+            data: ResponseJson = response.json()
             return success_function(data, *args)
         if not response:
-            return failure_function(response.status_code, *args)
+            failure_function(response.status_code, *args)
+            return None
         self.throw_connection_error(response.status_code)
         return None
 
     def throw_connection_error(self, status_code: int) -> None:
         print(f'Response code: {status_code}')
+        return None
 
 class EBirdWeb(APIClass):
     def __init__(self) -> None:
@@ -78,19 +83,50 @@ class EBirdWeb(APIClass):
         return '(class) eBird API manager'
 
     def get_data(self) -> Response:
-        url: str = "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&locale=en_UK"
+        url: str = 'https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&locale=en_UK'
         response: Response = requests.request("GET", url, headers={'X-eBirdApiToken': self.api_key}, data={})
         return response
     
-    def get_subspecies_codes(self, species_code: str) -> Response:
+    def _get_subspecies_codes(self, species_code: str) -> Response:
         url: str = f'https://api.ebird.org/v2/ref/taxon/forms/{species_code}'
         response: Response = requests.request("GET", url, headers={'X-eBirdApiToken': self.api_key}, data={})
         return response
 
+    def _get_unfiltered_subspecies_data(self, subspecies_codes: list[str]) -> Response:
+        codes_list: str = ','.join(subspecies_codes)
+        url: str = f'https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json&locale=en_UK&species={codes_list}'
+        response: Response = requests.request("GET", url, headers={'X-eBirdApiToken': self.api_key}, data={})
+        return response
+
+    def _filter_subspecies_data(self, subspecies_data: list[dict]) -> list[SubspeciesDict]:
+        filtered_subspecies_data: list[SubspeciesDict] = []
+        for subspecies in filter(lambda x : not '/' in x, subspecies_data):
+            if subspecies['category'] == 'species':
+                filtered_subspecies_data.append({'eBird_code': subspecies['speciesCode'], 
+                                                 'common_name': subspecies['comName'], 
+                                                 'subspecies': '(Nominate)',
+                                                 'species': subspecies['sciName'].split()[1]})
+            elif subspecies['category'] == 'issf':
+                filtered_subspecies_data.append({'eBird_code': subspecies['speciesCode'], 
+                                                 'common_name': subspecies['comName'], 
+                                                 'subspecies': subspecies['sciName'],
+                                                 'species': subspecies['reportAs']})
+        return filtered_subspecies_data
+
+
+    def get_subspecies_data(self, species_code: str) -> Optional[list[SubspeciesDict]]:
+        subspecies_codes: Response = self._get_subspecies_codes(species_code)
+        unfiltered_subspecies_data: Optional[Response] = self.status_test(response=subspecies_codes,
+                                                                       success_function=self._get_unfiltered_subspecies_data,
+                                                                       failure_function=self.throw_connection_error)
+        filtered_subspecies_data: Optional[list[SubspeciesDict]] = self.status_test(response=unfiltered_subspecies_data,
+                                                                                 success_function=self._filter_subspecies_data,
+                                                                                 failure_function=self.throw_connection_error)
+        return filtered_subspecies_data
 
 class PinDatabaseInterface(ABC):
     def __init__(self) -> None:
-        self.open_connection()
+        self._open_connection()
         self.bird_table: Table[BirdDict]
         self.bird_subspecies_table: Table[SubspeciesDict]
         self.superorganisation_table: Table[SuperorganisationDict]
@@ -102,7 +138,7 @@ class PinDatabaseInterface(ABC):
         return '(class) Local database manager'
 
     @abstractmethod
-    def open_connection(self) -> None:
+    def _open_connection(self) -> None:
         pass
 
     def initialise_database(self) -> None:
@@ -113,11 +149,11 @@ class PinDatabaseInterface(ABC):
         self.suborganisation_table.create()
         self.pin_table.create()
 
-    def clear_ebird_table(self) -> None:
+    def _clear_ebird_table(self) -> None:
         self.bird_table.drop()
         self.bird_table.create()
 
-    def process_ebird_data(self, api_data: list[dict]) -> list[BirdDict]:
+    def _process_ebird_data(self, api_data: list[dict]) -> list[BirdDict]:
         processed_data: list[BirdDict] = []
         for species_profile in filter(lambda w: w['category'] == 'species', api_data):
             processed_data.append({'eBird_code': species_profile['speciesCode'], 
@@ -130,8 +166,8 @@ class PinDatabaseInterface(ABC):
         return processed_data
 
     def update_ebird_data(self, api_data: list[dict]) -> None:
-        self.clear_ebird_table()
-        processed_data: list[BirdDict] = self.process_ebird_data(api_data)
+        self._clear_ebird_table()
+        processed_data: list[BirdDict] = self._process_ebird_data(api_data)
         self.bird_table.add_data(processed_data)
 
     @abstractmethod
@@ -195,7 +231,8 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
         self.bird_subspecies_table = self.SqlTable[SubspeciesDict](name = 'BirdSubspecies', 
                                                 connection=self.connection, cursor=self.cursor,
                                                 table_fields=[('eBird_code', 'TEXT NOT NULL PRIMARY KEY'), 
-                                                            ('common_name', 'TEXT NOT NULL'), 
+                                                            ('common_name', 'TEXT NOT NULL'),
+                                                            ('subspecies', 'TEXT NOT NULL'),
                                                             ('species', 'TEXT NOT NULL')],
                                                 table_constraints=['FOREIGN KEY(species) REFERENCES bird(eBird_code)'])
         self.superorganisation_table = self.SqlTable[SuperorganisationDict](name = 'Superorganisation', 
@@ -233,7 +270,7 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
                                                     'FOREIGN KEY(source) REFERENCES Source(name)', 
                                                     'FOREIGN KEY(suborganisation) REFERENCES Suborganisation(name)'])
 
-    def open_connection(self) -> None:
+    def _open_connection(self) -> None:
         self.connection: sql.Connection = sql.connect(DATABASE)
         self.cursor: sql.Cursor = self.connection.cursor()
     
@@ -276,7 +313,7 @@ class PinDatabasePeewee(PinDatabaseInterface):
         self.suborganisation_table = self.PeeweeTable[SuborganisationDict](database=self.db, model=Suborganisation)
         self.pin_table = self.PeeweeTable[PinDict](database=self.db, model=Pin)
 
-    def open_connection(self) -> None:
+    def _open_connection(self) -> None:
         self.db.connect()
 
     def close_connection(self) -> None:
@@ -300,26 +337,27 @@ class EBirdBridge:
                                     success_function=self.LocalDBInterface.update_ebird_data, 
                                     failure_function=self.EBirdWeb.throw_connection_error)
         
-    def retrieve_subspecies(self):
-        pass
+    def retrieve_subspecies(self, species_code: str) -> Optional[list[SubspeciesDict]]:
+        data = self.EBirdWeb.get_subspecies_data(species_code)
+        return data
    
     def close_connection(self) -> None:
         self.LocalDBInterface.close_connection()
 
 
 class UserBridge:
-    @logged(print_args=False)
     def fuzzy_search(self, test_name: str, 
-                            database: list[dict], 
+                            database: Sequence[DataDict], 
                             attribute: str,
-                            threshold: int = 80) -> list[DictWithScore]:
+                            threshold: int = 80) -> list[DictWithScore[DataDict]]:
         '''
         >>> UserLocalDBBridge.species_fuzzy_search(test_name = 'Maroon Pigeon', database = [{'common_name': 'Short-toed Coucal'}, {'common_name': 'Rameron Pigeon'}], check_type = 'common_name')
         [({'common_name': 'Rameron Pigeon'},85)]
         '''
+
         matching_data: list[DictWithScore] = []
         for data in database:
-            ratio = fuzz.partial_ratio(test_name,data[attribute])
+            ratio = fuzz.partial_ratio(test_name.lower(),str(data.get(attribute)).lower())
             if ratio >= threshold:
                 matching_data.append((data,ratio))
         return matching_data
@@ -333,9 +371,12 @@ class UserLocalDBBridge(UserBridge):
     def __repr__(self):
         return '(class) Local Database Bridge'
 
-    def fuzzy_search_species_ebird(self, test_name: str, threshold: int = 80) -> list[DictWithScore]:
+    def fuzzy_search_species_ebird(self, test_name: str, threshold: int = 80) -> list[DictWithScore[BirdDict]]:
         database: list[BirdDict] = self.eBirdDB.get_data()
         return self.fuzzy_search(test_name=test_name, database=database, attribute='common_name', threshold=threshold)
+    
+    def close_connection(self) -> None:
+        self.LocalDBInterface.close_connection()
 
 @logged()
 def main(auto_test: bool = False):
@@ -343,21 +384,8 @@ def main(auto_test: bool = False):
         import doctest
         doctest.testmod()
         return None
-
-
-    # ebridge = EBirdBridge()
-    # ubridge = UserLocalDBBridge()
-
-    # ebridge.update_database()
-    
-    # print(ubridge.eBirdDB.get_data()[1000])
-    
-    # data = {'eBird_code': 'ostric2', 'common_name': 'Common Ostrich', 'family_common_name': 'Ostriches', 'bird_order': 'Struthioniformes', 'family': 'Struthionidae', 'genus': 'Struthio', 'species': 'camelus'}
-    #
-    # print(ubridge.fuzzy_search_species_ebird(test_name = 'Woodpigeon', threshold=90))
-    # 
-    # api = EBirdWeb()
-    # print(','.join(api.get_subspecies_codes('cangoo').json()))
+    # foo: SubspeciesDict = {'eBird_code': 'str', 'common_name': 'str', 'subspecies': 'str', 'species': 'str'}
+    # print(type(foo))
     pass
     
 if __name__ == '__main__':
