@@ -561,12 +561,14 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _validate_button_pressed(self) -> None:
         picked_species: str = self._species_dropdown.get()
         is_subspecies: bool = self._subspecies_toggle.get()
+        picked_subspecies: str | None = None
         if is_subspecies:
-            picked_subspecies: str = self._subspecies_dropdown.get()
+            picked_subspecies = self._subspecies_dropdown.get()
         picked_source: str = self.source_dropdown.get()
         is_subgroup: bool = self._subgroup_toggle.get()
+        picked_subgroup: str | None = None
         if is_subgroup:
-            picked_subgroup: str = self._subgroup_dropdown.get()
+            picked_subgroup = self._subgroup_dropdown.get()
         pin: PinDict
         # Splitting into cases so can return an appropriate error message later.
         if not picked_species:
