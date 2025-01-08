@@ -7,7 +7,7 @@ import requests
 from fuzzywuzzy import fuzz
 #Typing, decorators, logging
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar, TypeAlias, Generic, Optional, Sequence
+from typing import Callable, TypeVar, TypeAlias, Generic, Optional, Sequence, Literal
 import logging
 #Timing functions
 import time
@@ -378,9 +378,17 @@ class UserLocalDBBridge(UserBridge):
     def fuzzy_search_species_ebird(self, test_name: str, threshold: int = 80) -> list[DictWithScore[BirdDict]]:
         database: list[BirdDict] = self.eBirdDB.get_data()
         return self.fuzzy_search(test_name=test_name, database=database, attribute='common_name', threshold=threshold)
-    
+
+    def retrieve_sources(self, source_type: Literal['Charity', 'Artist', 'Other']) -> list[SourceDict]:
+        unfiltered_data: list[SourceDict] = self.LocalDBInterface.source_table.get_data()
+        filtered_data: list[SourceDict] = []
+        for source in filter(lambda x: x['type'] == source_type, unfiltered_data):
+            filtered_data.append(source)
+        return filtered_data
+
     def close_connection(self) -> None:
         self.LocalDBInterface.close_connection()
+        return None
 
 @logged()
 def main(auto_test: bool = False):
