@@ -275,11 +275,11 @@ class ScreenEnterNewPin(ctk.CTkFrame):
 
     def _layout_subgroup_frame_initial(self) -> None:
         self.picked_subgroup = ctk.StringVar()
-        self.subgroup_dropdown = ctk.CTkComboBox(self.subgroup_frame_initial, 
+        self._subgroup_dropdown = ctk.CTkComboBox(self.subgroup_frame_initial, 
                                                values=[], 
                                                variable=self.picked_subgroup,
                                                width=self.BUTTON_WIDTH)
-        self.subgroup_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
+        self._subgroup_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
         self._subgroup_confirm_button = ctk.CTkButton(self.subgroup_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
@@ -419,6 +419,12 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self._subspecies_dropdown.configure(values = dropdown_options)
         return None
 
+    def _add_subgroups_to_menu(self, subgroups_list: list[SubgroupDict]) -> None:
+        dropdown_options: list[str] = []
+        for subgroup in subgroups_list:
+            dropdown_options.append(subgroup['name'])
+        self._subgroup_dropdown.configure(values = dropdown_options)
+        return None
 
     def _find_species_pressed(self) -> None:
         self.species_error_label.grid_forget()
@@ -501,7 +507,21 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _confirm_source_pressed(self) -> None:
-        raise NotImplementedError
+        picked_source: str = self.source_dropdown.get()
+        if picked_source == '':
+            return None
+        self.picked_source_label.configure(text=picked_source)
+        self.source_frame_initial.grid_forget()
+        self.source_frame_confirmed.grid(**self.SOURCE_FRAME_LOCATION)
+
+        bridge = UserLocalDBBridge()
+        subgroups: list[SubgroupDict] = bridge.retrieve_subgroups(picked_source)
+        if subgroups == []:
+            self._subgroup_toggle.configure(state=ctk.DISABLED)
+            return None
+        self._subgroup_toggle.configure(state=ctk.NORMAL)
+        self._add_subgroups_to_menu(subgroups)
+        return None
 
     def _subgroup_toggle_pressed(self) -> None:
         raise NotImplementedError
