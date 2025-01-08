@@ -17,6 +17,7 @@ class BirdDict(TypedDict):
 class SubspeciesDict(TypedDict):
     eBird_code: str
     common_name: str
+    subspecies: str
     species: str
 
 class SuperorganisationDict(TypedDict):
@@ -87,6 +88,7 @@ class Bird(pw.Model):
 class BirdSubspecies(pw.Model):
     eBird_code = pw.CharField(primary_key=True)
     common_name = pw.CharField()
+    subspecies = pw.CharField()
     species = pw.ForeignKeyField(Bird, backref='subspecies')
 
     class Meta:
