@@ -279,17 +279,17 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                values=[], 
                                                variable=self.picked_subgroup,
                                                width=self.BUTTON_WIDTH)
-        self._subgroup_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
+        self._subgroup_dropdown.grid(**self.SUBGROUP_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
         self._subgroup_confirm_button = ctk.CTkButton(self.subgroup_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
                                                        command=self._confirm_subgroup_pressed)
-        self._subgroup_confirm_button.grid(**self.SUBORG_FRAME_LAYOUT['BUTTON_LOCATION']) 
+        self._subgroup_confirm_button.grid(**self.SUBGROUP_FRAME_LAYOUT['BUTTON_LOCATION']) 
         return None         
     
     def _layout_subgroup_frame_confirmed(self) -> None:
         self.picked_subgroup_label = ctk.CTkLabel(self.subgroup_frame_confirmed, text='')
-        self.picked_subgroup_label.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])
+        self.picked_subgroup_label.grid(**self.SUBGROUP_FRAME_LAYOUT['DROPDOWN_LOCATION'])
         return None
 
 
@@ -317,7 +317,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.SOURCE_LABEL_LOCATION: dict[str, int] = {'row': 4, 'column': 0, 
                                                        'padx': 10}
         self.SOURCE_FRAME_LOCATION: dict[str, int] = {'row': 4, 'column': 1, 'columnspan': 4}
-        self.SUBORG_FRAME_LOCATION: dict[str, int] = {'row': 5, 'column': 0, 'columnspan': 4}
+        self.SUBGROUP_FRAME_LOCATION: dict[str, int] = {'row': 5, 'column': 0, 'columnspan': 4}
         self.VALIDATE_BUTTON_LOCATION:  dict[str, int] = {'row': 6, 'column': 1, 'columnspan': 2}
 
         self.SPECIES_FRAME_LAYOUT: dict[str, dict[str, int]] = {'NAME_LOCATION': {'row': 0, 'column': 1, 
@@ -331,7 +331,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                               'BUTTON_LOCATION':{'row': 0, 'column': 3},
                                                               'LONG_LABEL_LOCATION': {'row': 0, 'column': 1,
                                                                                       'columnspan': 2}}
-        self.SUBORG_FRAME_LAYOUT: dict[str, dict[str,int]] = {'DROPDOWN_LOCATION': {'row': 0, 'column': 1},
+        self.SUBGROUP_FRAME_LAYOUT: dict[str, dict[str,int]] = {'DROPDOWN_LOCATION': {'row': 0, 'column': 1},
                                                               'BUTTON_LOCATION':{'row': 0, 'column': 2}}
 
         # Title
@@ -530,8 +530,12 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _subgroup_toggle_pressed(self) -> None:
-
-        raise NotImplementedError
+        state: bool = self.subgroup_toggle_var.get()
+        if not state:
+            self.subgroup_frame_parent.grid_forget()
+            return None
+        self.subgroup_frame_parent.grid(**self.SUBGROUP_FRAME_LOCATION)
+        return None
 
     def _confirm_subgroup_pressed(self) -> None:
         raise NotImplementedError
