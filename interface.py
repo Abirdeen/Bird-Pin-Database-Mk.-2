@@ -496,6 +496,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _source_type_dropdown_changed(self, source_type: Literal['Charity', 'Artist', 'Other']) -> None:
         bridge = UserLocalDBBridge()
         source_list: list[SourceDict] = bridge.retrieve_sources(source_type)
+        bridge.close_connection()
         if source_list == []:
             self.source_dropdown.configure(state=ctk.DISABLED)
             return None
@@ -516,6 +517,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
 
         bridge = UserLocalDBBridge()
         subgroups: list[SubgroupDict] = bridge.retrieve_subgroups(picked_source)
+        bridge.close_connection()
         if subgroups == []:
             self._subgroup_toggle.configure(state=ctk.DISABLED)
             return None
