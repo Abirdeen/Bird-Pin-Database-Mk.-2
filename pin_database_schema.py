@@ -28,7 +28,7 @@ class SupergroupDict(TypedDict):
 
 class SourceDict(TypedDict):
     name: str
-    type: str | None
+    type: str
     short_name: str | None
     description: str | None
     parent: str | None

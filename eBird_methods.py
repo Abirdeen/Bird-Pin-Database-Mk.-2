@@ -246,7 +246,7 @@ class PinDatabaseSQLite3(PinDatabaseInterface):
         self.source_table = self.SqlTable[SourceDict](name='Source', 
                                                       connection=self.connection, 
                                                       cursor=self.cursor,table_fields=[('name', 'TEXT NOT NULL PRIMARY KEY'), 
-                                                                                       ('type', 'TEXT'),
+                                                                                       ('type', 'TEXT NOT NULL'),
                                                                                        ('short_name', 'TEXT'), 
                                                                                        ('description', 'TEXT'), 
                                                                                        ('parent', 'TEXT'), 
