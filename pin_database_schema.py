@@ -28,6 +28,7 @@ class SupergroupDict(TypedDict):
 
 class SourceDict(TypedDict):
     name: str
+    type: str | None
     short_name: str | None
     description: str | None
     parent: str | None
@@ -105,6 +106,7 @@ class Supergroup(pw.Model):
 
 class Source(pw.Model):
     name = pw.CharField(primary_key=True)
+    type = pw.CharField()
     short_name = pw.CharField(null=True)
     description = pw.CharField(null=True)
     parent = pw.ForeignKeyField(Supergroup, backref='supergroups', null=True)

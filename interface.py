@@ -2,7 +2,7 @@
 import logging
 import time
 
-from typing import Optional
+from typing import Optional, Literal
 
 from PIL import Image
 import customtkinter as ctk
@@ -242,8 +242,9 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _layout_source_frame_initial(self) -> None:
         self.picked_source_type = ctk.StringVar()
         self.source_type_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
-                                                   values=[], 
+                                                   values=['Charity', 'Artist', 'Other'], 
                                                    variable=self.picked_source_type,
+                                                   command=self._source_type_dropdown_changed,
                                                    width=self.BUTTON_WIDTH)
         self.source_type_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['TYPE_DROPDOWN_LOCATION'])    
         self.picked_source = ctk.StringVar()
@@ -485,6 +486,15 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.picked_subspecies_label.configure(text = picked_option)
         self.subspecies_frame_confirmed.grid(row=0, column=1)
         return None
+
+    def _source_type_dropdown_changed(self, source_type: Literal['Charity', 'Artist', 'Other']) -> None:
+        raise NotImplementedError
+        if source_type == 'Charity':
+            return None
+        if source_type == 'Artist':
+            return None
+        if source_type == 'Other':
+            return None
 
     def _confirm_source_pressed(self) -> None:
         raise NotImplementedError
