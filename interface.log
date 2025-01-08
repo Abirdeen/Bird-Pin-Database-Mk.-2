@@ -629,3 +629,941 @@ INFO:interface:Started running main with the arguments
 INFO:interface:Finished running main 
  taking 8.156254053115845 seconds.
 INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: CTkButton.__init__() missing 1 required positional argument: 'master'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 208, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 201, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 56, in __init__
+    'New pin': ScreenEnterNewPin(self),
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 124, in __init__
+    self.home_button = ctk.CTkButton(image=photo_image, command=lambda: master.switch_window('Welcome'))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CTkButton.__init__() missing 1 required positional argument: 'master'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 172.6869466304779 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: CTkImage.__init__() got an unexpected keyword argument 'file'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 209, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 202, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 54, in __init__
+    photo_image = ctk.CTkImage(file='./assets/Pin-Tailed Whydah Polygonal.png')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CTkImage.__init__() got an unexpected keyword argument 'file'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: CTkImage.__init__() got an unexpected keyword argument 'file'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 209, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 202, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 54, in __init__
+    photo_image = ctk.CTkImage(file='./assets/Pin-Tailed Whydah Polygonal.png')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CTkImage.__init__() got an unexpected keyword argument 'file'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: cannot use geometry manager pack inside . which already has slaves managed by grid
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 208, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 201, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 68, in __init__
+    self.screens['Welcome'].pack(padx=20, pady=20, fill="both", expand=True)
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 298, in pack
+    return super().pack(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2471, in pack_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager pack inside . which already has slaves managed by grid
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: bad option "-row": must be -after, -anchor, -before, -expand, -fill, -in, -ipadx, -ipady, -padx, -pady, or -side
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 208, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 201, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 56, in __init__
+    self.home_button.pack(row = 0, column = 0)
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 298, in pack
+    return super().pack(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2471, in pack_configure
+    self.tk.call(
+_tkinter.TclError: bad option "-row": must be -after, -anchor, -before, -expand, -fill, -in, -ipadx, -ipady, -padx, -pady, or -side
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 25.26558542251587 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 7.372387170791626 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.074634075164795 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: CTkImage: light_image must be instance if PIL.Image.Image, not <class 'PIL.ImageTk.PhotoImage'>
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 209, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 202, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 55, in __init__
+    photo_image = ctk.CTkImage(light_image=home_icon)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\image\ctk_image.py", line 31, in __init__
+    self._check_images()
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\image\ctk_image.py", line 80, in _check_images
+    raise ValueError(f"CTkImage: light_image must be instance if PIL.Image.Image, not {type(self._light_image)}")
+ValueError: CTkImage: light_image must be instance if PIL.Image.Image, not <class 'PIL.ImageTk.PhotoImage'>
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 8.068669080734253 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 16.741204261779785 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.532050132751465 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 117.5911648273468 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 10.637331485748291 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 4.1078245639801025 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.401275396347046 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 3.0291571617126465 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 5.474480152130127 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.385944366455078 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 68.7262396812439 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 3.545443058013916 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 10.0409414768219 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 9.394801378250122 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: '_tkinter.tkapp' object has no attribute 'bg_resizer'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 234, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 227, in main
+    app.bind("<Configure>", app.bg_resizer)
+                            ^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2429, in __getattr__
+    return getattr(self.tk, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: '_tkinter.tkapp' object has no attribute 'bg_resizer'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 4.379009485244751 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: unsupported operand type(s) for *: 'method' and 'float'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 237, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 229, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 68, in __init__
+    self.screens: dict[str, ctk.CTkFrame] = {'Loading': ScreenLoading(self),
+                                                        ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 91, in __init__
+    background_label = ctk.CTkLabel(self, image=background_ctk)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\ctk_label.py", line 104, in __init__
+    self._update_image()
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\ctk_label.py", line 141, in _update_image
+    self._label.configure(image=self._image.create_scaled_photo_image(self._get_widget_scaling(),
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\image\ctk_image.py", line 110, in create_scaled_photo_image
+    scaled_size = self._get_scaled_size(widget_scaling)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\image\ctk_image.py", line 93, in _get_scaled_size
+    return round(self._size[0] * widget_scaling), round(self._size[1] * widget_scaling)
+                 ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'method' and 'float'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 7.911956310272217 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 19.6692214012146 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: '_tkinter.tkapp' object has no attribute 'screens'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 237, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 229, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 68, in __init__
+    self.screens: dict[str, ctk.CTkFrame] = {'Loading': ScreenLoading(self),
+                                                        ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 92, in __init__
+    master.switch_window('Welcome')
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 80, in switch_window
+    self.screens[self.current_window].pack_forget()
+    ^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2429, in __getattr__
+    return getattr(self.tk, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: '_tkinter.tkapp' object has no attribute 'screens'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: ScreenLoading.loaded() missing 1 required positional argument: 'master'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 241, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 233, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 79, in __init__
+    self.screens[self.current_window].loaded()
+TypeError: ScreenLoading.loaded() missing 1 required positional argument: 'master'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.192126274108887 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 8.862757444381714 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: CTkImage.__init__() got an unexpected keyword argument 'text'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 240, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 20, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 232, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 68, in __init__
+    self.screens: dict[str, ctk.CTkFrame] = {'Loading': ScreenLoading(self),
+                                                        ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 89, in __init__
+    background_ctk = ctk.CTkImage(light_image=background, text='', size=(master.winfo_width(),master.winfo_height()))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CTkImage.__init__() got an unexpected keyword argument 'text'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 15.21694564819336 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 21.316468954086304 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 22.021641731262207 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 7.42059063911438 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 24.120795249938965 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 10.212074756622314 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.066092252731323 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 3.8166728019714355 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [({'eBird_code': 'cowpig1', 'common_name': 'Common Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumbus'}, 100)] 
+ taking 0.2870004177093506 seconds.
+INFO:interface:Finished running main 
+ taking 1903.2216336727142 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.21499848365783691 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.3680000305175781 seconds.
+INFO:interface:Finished running main 
+ taking 22.614682912826538 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.23800230026245117 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.2129993438720703 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [] 
+ taking 0.21300172805786133 seconds.
+INFO:interface:Finished running main 
+ taking 24.111443519592285 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [] 
+ taking 0.19297456741333008 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.23397445678710938 seconds.
+INFO:interface:Finished running main 
+ taking 36.409682512283325 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 14.308929681777954 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.2310042381286621 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [({'eBird_code': 'cowpig1', 'common_name': 'Common Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumbus'}, 90), ({'eBird_code': 'mauwop1', 'common_name': 'Mauritius Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'thiriouxi'}, 90), ({'eBird_code': 'spwpig1', 'common_name': 'Speckled Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'hodgsonii'}, 90), ({'eBird_code': 'aswpig1', 'common_name': 'Ashy Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'pulchricollis'}, 90), ({'eBird_code': 'niwpig1', 'common_name': 'Nilgiri Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'elphinstonii'}, 90), ({'eBird_code': 'ceywop1', 'common_name': 'Sri Lanka Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'torringtoniae'}, 90), ({'eBird_code': 'siwpig1', 'common_name': 'Silvery Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'argentina'}, 90), ({'eBird_code': 'anwpig1', 'common_name': 'Andaman Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumboides'}, 90), ({'eBird_code': 'jawpig1', 'common_name': 'Japanese Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'janthina'}, 90)] 
+ taking 0.2389993667602539 seconds.
+INFO:interface:Finished running main 
+ taking 83.3373019695282 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [({'eBird_code': 'cowpig1', 'common_name': 'Common Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumbus'}, 90), ({'eBird_code': 'mauwop1', 'common_name': 'Mauritius Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'thiriouxi'}, 90), ({'eBird_code': 'spwpig1', 'common_name': 'Speckled Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'hodgsonii'}, 90), ({'eBird_code': 'aswpig1', 'common_name': 'Ashy Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'pulchricollis'}, 90), ({'eBird_code': 'niwpig1', 'common_name': 'Nilgiri Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'elphinstonii'}, 90), ({'eBird_code': 'ceywop1', 'common_name': 'Sri Lanka Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'torringtoniae'}, 90), ({'eBird_code': 'siwpig1', 'common_name': 'Silvery Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'argentina'}, 90), ({'eBird_code': 'anwpig1', 'common_name': 'Andaman Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumboides'}, 90), ({'eBird_code': 'jawpig1', 'common_name': 'Japanese Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'janthina'}, 90)] 
+ taking 0.44601964950561523 seconds.
+INFO:interface:Finished running main 
+ taking 27.16542387008667 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.2430260181427002 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [({'eBird_code': 'cowpig1', 'common_name': 'Common Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumbus'}, 90), ({'eBird_code': 'mauwop1', 'common_name': 'Mauritius Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'thiriouxi'}, 90), ({'eBird_code': 'spwpig1', 'common_name': 'Speckled Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'hodgsonii'}, 90), ({'eBird_code': 'aswpig1', 'common_name': 'Ashy Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'pulchricollis'}, 90), ({'eBird_code': 'niwpig1', 'common_name': 'Nilgiri Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'elphinstonii'}, 90), ({'eBird_code': 'ceywop1', 'common_name': 'Sri Lanka Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'torringtoniae'}, 90), ({'eBird_code': 'siwpig1', 'common_name': 'Silvery Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'argentina'}, 90), ({'eBird_code': 'anwpig1', 'common_name': 'Andaman Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'palumboides'}, 90), ({'eBird_code': 'jawpig1', 'common_name': 'Japanese Woodpigeon', 'family_common_name': 'Pigeons and Doves', 'bird_order': 'Columbiformes', 'family': 'Columbidae', 'genus': 'Columba', 'species': 'janthina'}, 90)] 
+ taking 0.2369997501373291 seconds.
+INFO:interface:Finished running main 
+ taking 1119.0896291732788 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: 'ScreenEnterNewPin' object has no attribute 'confirm_subspecies'
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 296, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 21, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 288, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 67, in __init__
+    'New pin': ScreenEnterNewPin(self),
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 253, in __init__
+    command=self.confirm_subspecies)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ScreenEnterNewPin' object has no attribute 'confirm_subspecies'
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 16.790361166000366 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with result of length 157 
+ taking 0.23399615287780762 seconds.
+INFO:eBird_methods:Started running fuzzy_search
+INFO:eBird_methods:Finished running fuzzy_search with the result 
+ [({'eBird_code': 'amewig', 'common_name': 'American Wigeon', 'family_common_name': 'Ducks, Geese, and Waterfowl', 'bird_order': 'Anseriformes', 'family': 'Anatidae', 'genus': 'Mareca', 'species': 'americana'}, 87)] 
+ taking 0.27699899673461914 seconds.
+INFO:interface:Finished running main 
+ taking 199.99587607383728 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 104.5067708492279 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 37.7114143371582 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 124.9914436340332 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 134.23467087745667 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 38.74135184288025 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 115.00452375411987 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 18.908538818359375 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 95.21238803863525 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 50.0647177696228 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 131.29432201385498 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 39.03917336463928 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 81.61494565010071 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 19.96430468559265 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 14.79453730583191 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 26.717506170272827 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 144.20510578155518 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 9.048827409744263 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 87.34843015670776 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 18.595728874206543 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 119.82536888122559 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.403798818588257 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 4.49249529838562 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 9.652271032333374 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 23.148263931274414 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 5.977224588394165 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 5.731390714645386 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 4.200873374938965 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 3.472228765487671 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 43.579866886138916 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.093020439147949 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 27.52996253967285 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 175.4487144947052 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 7.974268913269043 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 41.71224093437195 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 29.025809049606323 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 17.93440866470337 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 131.93963503837585 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 47.396726846694946 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 179.4609546661377 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 18.255470037460327 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 2.702375888824463 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 8.49350619316101 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: bad anchor "N": must be n, ne, e, se, s, sw, w, nw, or center
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 434, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 23, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 426, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 63, in __init__
+    self.home_button.pack(anchor='N')
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 298, in pack
+    return super().pack(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2471, in pack_configure
+    self.tk.call(
+_tkinter.TclError: bad anchor "N": must be n, ne, e, se, s, sw, w, nw, or center
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 7.068707704544067 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: bad side "LEFT": must be top, bottom, left, or right
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 434, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 23, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 426, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 72, in __init__
+    self.refresh_button.pack(anchor='nw', side = 'LEFT')
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 298, in pack
+    return super().pack(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2471, in pack_configure
+    self.tk.call(
+_tkinter.TclError: bad side "LEFT": must be top, bottom, left, or right
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 6.260874509811401 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 4.572967290878296 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 11.058497190475464 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: bad option "-fill": must be -column, -columnspan, -in, -ipadx, -ipady, -padx, -pady, -row, -rowspan, or -sticky
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 436, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 23, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 428, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 99, in __init__
+    self.current_window.grid(**self.WINDOW_SETTINGS)
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 321, in grid
+    return super().grid(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2568, in grid_configure
+    self.tk.call(
+_tkinter.TclError: bad option "-fill": must be -column, -columnspan, -in, -ipadx, -ipady, -padx, -pady, -row, -rowspan, or -sticky
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+ERROR:interface:Got exception on main handler: bad option "-expand": must be -column, -columnspan, -in, -ipadx, -ipady, -padx, -pady, -row, -rowspan, or -sticky
+Traceback (most recent call last):
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 436, in <module>
+    main()
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 23, in log_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 428, in main
+    app = App()
+          ^^^^^
+  File "c:\Users\aberd\OneDrive\Documents\Python stuff\Bird Pin Program mk 2\interface.py", line 99, in __init__
+    self.current_window.grid(**self.WINDOW_SETTINGS)
+  File "C:\Users\aberd\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\customtkinter\windows\widgets\core_widget_classes\ctk_base_class.py", line 321, in grid
+    return super().grid(**self._apply_argument_scaling(kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tkinter\__init__.py", line 2568, in grid_configure
+    self.tk.call(
+_tkinter.TclError: bad option "-expand": must be -column, -columnspan, -in, -ipadx, -ipady, -padx, -pady, -row, -rowspan, or -sticky
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 11.378195762634277 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 16.036011695861816 seconds.
+INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 62.93534064292908 seconds.
+INFO:interface:----------------end log-----------------

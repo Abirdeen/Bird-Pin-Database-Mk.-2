@@ -130,7 +130,7 @@ class ScreenLoading(ctk.CTkFrame):
 
 class ScreenWelcome(ctk.CTkFrame):
 
-    def update_database(self):
+    def _update_database(self):
         bridge = EBirdBridge()
         bridge.update_database()
         bridge.close_connection()
@@ -142,7 +142,7 @@ class ScreenWelcome(ctk.CTkFrame):
         self.BUTTON_WIDTH: int = 20
 
         # Layout
-        self.title = ctk.CTkLabel(self, text='Welcome to your bird pin database!', 
+        self._title = ctk.CTkLabel(self, text='Welcome to your bird pin database!', 
                                   font=ctk.CTkFont("Arial", 20, "bold"))
         self.subtitle = ctk.CTkLabel(self, text='What would you like to do?', 
                                      font=ctk.CTkFont("Arial", 15, "bold"))
@@ -166,9 +166,9 @@ class ScreenWelcome(ctk.CTkFrame):
         self.update_database_button = ctk.CTkButton(self, 
                                                     width=self.BUTTON_WIDTH, 
                                                     text='Update local bird database', 
-                                                    command=self.update_database)
+                                                    command=self._update_database)
 
-        self.title.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+        self._title.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
         self.subtitle.grid(row=1, column=0, columnspan=3)
 
         self.new_pin_button.grid(row=3, column=0)
@@ -179,69 +179,67 @@ class ScreenWelcome(ctk.CTkFrame):
 
 class ScreenEnterNewPin(ctk.CTkFrame):
 
-    def layout_species_frame_initial(self) -> None:
+    def _layout_species_frame_initial(self) -> None:
         self.species_name_input = ctk.StringVar()
-        self.species_entry_box = ctk.CTkEntry(self.species_frame_initial, 
+        self._species_entry_box = ctk.CTkEntry(self.species_frame_initial, 
                                               textvariable=self.species_name_input,
                                               width=self.LONG_BOX_WIDTH)
-        self.species_entry_box.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
-        self.species_find_button = ctk.CTkButton(self.species_frame_initial, text='Find', 
+        self._species_entry_box.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
+        self._species_find_button = ctk.CTkButton(self.species_frame_initial, text='Find', 
                                                     width=self.BUTTON_WIDTH, 
-                                                    command=self.find_species_pressed)
-        self.species_find_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
+                                                    command=self._find_species_pressed)
+        self._species_find_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
         self.species_error_label = ctk.CTkLabel(self.species_frame_initial, text='TEST', text_color='red', 
                                                 font=ctk.CTkFont(family="Arial", size=10))
-        self.species_error_label.grid(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
-        self.species_error_label.grid_forget()
+        self.species_error_label.grid_configure(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
         return None
 
-    def layout_species_frame_dropdown(self) -> None: 
+    def _layout_species_frame_dropdown(self) -> None: 
         self.picked_species = ctk.StringVar()
-        self.species_dropdown = ctk.CTkComboBox(self.species_frame_dropdown, values=[], 
+        self._species_dropdown = ctk.CTkComboBox(self.species_frame_dropdown, values=[], 
                                                 variable=self.picked_species,
                                                 width=self.LONG_BOX_WIDTH)
-        self.species_dropdown.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
-        self.species_confirm_button = ctk.CTkButton(self.species_frame_dropdown, text='Confirm',
+        self._species_dropdown.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
+        self._species_confirm_button = ctk.CTkButton(self.species_frame_dropdown, text='Confirm',
                                                     width=self.BUTTON_WIDTH,
-                                                    command=self.confirm_species_pressed)
-        self.species_confirm_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
+                                                    command=self._confirm_species_pressed)
+        self._species_confirm_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
         return None
 
-    def layout_species_frame_confirmed(self) -> None:
+    def _layout_species_frame_confirmed(self) -> None:
         self.picked_species_label = ctk.CTkLabel(self.species_frame_confirmed, text = '',
                                                  width=self.LONG_BOX_WIDTH)
         self.picked_species_label.grid(**self.SPECIES_FRAME_LAYOUT['NAME_LOCATION'])
         self.subspecies_toggle_var = ctk.BooleanVar(value=False)
-        self.subspecies_toggle = ctk.CTkSwitch(self.species_frame_confirmed, text='Subspecies?',
+        self._subspecies_toggle = ctk.CTkSwitch(self.species_frame_confirmed, text='Subspecies?',
                                                variable=self.subspecies_toggle_var,
-                                               command=self.subspecies_toggle_pressed)
-        self.subspecies_toggle.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
+                                               command=self._subspecies_toggle_pressed)
+        self._subspecies_toggle.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
         return None
 
 
-    def layout_subspecies_frame_initial(self) -> None:
+    def _layout_subspecies_frame_initial(self) -> None:
         self.picked_subspecies = ctk.StringVar()
-        self.subspecies_dropdown = ctk.CTkComboBox(self.subspecies_frame_initial, 
+        self._subspecies_dropdown = ctk.CTkComboBox(self.subspecies_frame_initial, 
                                                    values=[], 
                                                    variable=self.picked_subspecies,
                                                    width=self.LONG_BOX_WIDTH)
-        self.subspecies_dropdown.grid(**self.SUBSPECIES_FRAME_LAYOUT['NAME_LOCATION'])        
-        self.subspecies_confirm_button = ctk.CTkButton(self.subspecies_frame_initial, 
+        self._subspecies_dropdown.grid(**self.SUBSPECIES_FRAME_LAYOUT['NAME_LOCATION'])        
+        self._subspecies_confirm_button = ctk.CTkButton(self.subspecies_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
-                                                       command=self.confirm_subspecies_pressed)
-        self.subspecies_confirm_button.grid(**self.SUBSPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
+                                                       command=self._confirm_subspecies_pressed)
+        self._subspecies_confirm_button.grid(**self.SUBSPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
         return None
 
-    def layout_subspecies_frame_confirmed(self) -> None:
-        self.picked_subspecies = ctk.StringVar()
+    def _layout_subspecies_frame_confirmed(self) -> None:
         self.picked_subspecies_label = ctk.CTkLabel(self.subspecies_frame_confirmed, text='',
                                                     width=self.LONG_BOX_WIDTH)
         self.picked_subspecies_label.grid(**self.SUBSPECIES_FRAME_LAYOUT['NAME_LOCATION'])
         return None
 
 
-    def layout_source_frame_initial(self) -> None:
+    def _layout_source_frame_initial(self) -> None:
         self.picked_source_type = ctk.StringVar()
         self.source_type_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
                                                    values=[], 
@@ -255,42 +253,42 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                width=self.BUTTON_WIDTH, 
                                                state=ctk.DISABLED)
         self.source_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['SOURCE_DROPDOWN_LOCATION'])     
-        self.source_confirm_button = ctk.CTkButton(self.source_frame_initial, 
+        self._source_confirm_button = ctk.CTkButton(self.source_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
-                                                       command=self.confirm_source_pressed,
+                                                       command=self._confirm_source_pressed,
                                                        state=ctk.DISABLED)
-        self.subspecies_confirm_button.grid(**self.SUBSPECIES_FRAME_LAYOUT['BUTTON_LOCATION']) 
+        self._source_confirm_button.grid(**self.SOURCE_FRAME_LAYOUT['BUTTON_LOCATION']) 
         return None 
 
-    def layout_source_frame_confirmed(self) -> None:
+    def _layout_source_frame_confirmed(self) -> None:
         self.picked_source_label = ctk.CTkLabel(self.source_frame_confirmed, text='')
         self.picked_source_label.grid(**self.SOURCE_FRAME_LAYOUT['LONG_LABEL_LOCATION'])
         self.suborg_toggle_var = ctk.BooleanVar(value=False)
-        self.suborg_toggle = ctk.CTkSwitch(self.source_frame_confirmed, text='Suborg?',
+        self._suborg_toggle = ctk.CTkSwitch(self.source_frame_confirmed, text='Suborg?',
                                                variable=self.suborg_toggle_var,
-                                               command=self.suborg_toggle_pressed)
-        self.suborg_toggle.grid(**self.SOURCE_FRAME_LAYOUT['BUTTON_LOCATION'])
+                                               command=self._suborg_toggle_pressed)
+        self._suborg_toggle.grid(**self.SOURCE_FRAME_LAYOUT['BUTTON_LOCATION'])
         return None
 
 
-    def layout_suborg_frame_initial(self) -> None:
+    def _layout_suborg_frame_initial(self) -> None:
         self.picked_suborg = ctk.StringVar()
         self.suborg_dropdown = ctk.CTkComboBox(self.suborg_frame_initial, 
                                                values=[], 
                                                variable=self.picked_suborg,
                                                width=self.BUTTON_WIDTH)
         self.suborg_dropdown.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])    
-        self.suborg_confirm_button = ctk.CTkButton(self.suborg_frame_initial, 
+        self._suborg_confirm_button = ctk.CTkButton(self.suborg_frame_initial, 
                                                        text='Confirm',
                                                        width=self.BUTTON_WIDTH,
-                                                       command=self.confirm_suborg_pressed)
-        self.subspecies_confirm_button.grid(**self.SUBORG_FRAME_LAYOUT['BUTTON_LOCATION']) 
+                                                       command=self._confirm_suborg_pressed)
+        self._suborg_confirm_button.grid(**self.SUBORG_FRAME_LAYOUT['BUTTON_LOCATION']) 
         return None         
     
-    def layout_suborg_frame_confirmed(self) -> None:
+    def _layout_suborg_frame_confirmed(self) -> None:
         self.picked_suborg_label = ctk.CTkLabel(self.suborg_frame_confirmed, text='')
-        self.picked_source_label.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])
+        self.picked_suborg_label.grid(**self.SUBORG_FRAME_LAYOUT['DROPDOWN_LOCATION'])
         return None
 
 
@@ -336,97 +334,97 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                               'BUTTON_LOCATION':{'row': 0, 'column': 2}}
 
         # Title
-        self.title = ctk.CTkLabel(self, text='Enter new pin details', 
+        self._title = ctk.CTkLabel(self, text='Enter new pin details', 
                                   font=ctk.CTkFont(family="Arial", size=20, weight="bold"))
 
         # Possible states for the first row
-        self.species_label = ctk.CTkLabel(self, text='Species: ')
+        self._species_label = ctk.CTkLabel(self, text='Species: ')
 
         self.species_frame_initial = ctk.CTkFrame(self)
-        self.layout_species_frame_initial()
+        self._layout_species_frame_initial()
         self.species_frame_dropdown = ctk.CTkFrame(self)
-        self.layout_species_frame_dropdown()
+        self._layout_species_frame_dropdown()
         self.species_frame_confirmed = ctk.CTkFrame(self)
-        self.layout_species_frame_confirmed()
+        self._layout_species_frame_confirmed()
 
         # Possible states for the second row
         self.subspecies_frame_parent = ctk.CTkFrame(self)
-        self.subspecies_label = ctk.CTkLabel(self.subspecies_frame_parent, text='Subspecies: ')
+        self._subspecies_label = ctk.CTkLabel(self.subspecies_frame_parent, text='Subspecies: ')
 
         self.subspecies_frame_initial = ctk.CTkFrame(self.subspecies_frame_parent)
-        self.layout_subspecies_frame_initial()
+        self._layout_subspecies_frame_initial()
         self.subspecies_frame_confirmed = ctk.CTkFrame(self.subspecies_frame_parent)
-        self.layout_subspecies_frame_confirmed()
+        self._layout_subspecies_frame_confirmed()
 
-        self.subspecies_label.grid(row=0, column=0)
+        self._subspecies_label.grid(row=0, column=0)
         self.subspecies_frame_initial.grid(row=0, column=1)
 
         # Possible states for the third row
-        self.source_label = ctk.CTkLabel(self, text='Source: ')
+        self._source_label = ctk.CTkLabel(self, text='Source: ')
 
         self.source_frame_initial = ctk.CTkFrame(self)
-        self.layout_source_frame_initial()
+        self._layout_source_frame_initial()
         self.source_frame_confirmed = ctk.CTkFrame(self)
-        self.layout_source_frame_confirmed()
+        self._layout_source_frame_confirmed()
 
         # Possible states for the fourth row
         self.suborg_frame_parent = ctk.CTkFrame(self)
         self.suborg_label = ctk.CTkLabel(self.suborg_frame_parent, text='Suborganisation: ')
 
         self.suborg_frame_initial = ctk.CTkFrame(self.suborg_frame_parent)
-        self.layout_suborg_frame_initial()
+        self._layout_suborg_frame_initial()
         self.suborg_frame_confirmed = ctk.CTkFrame(self.suborg_frame_parent)
-        self.layout_suborg_frame_confirmed()
+        self._layout_suborg_frame_confirmed()
 
         self.suborg_label.grid(row=0, column=0)
         self.suborg_frame_initial.grid(row=0, column=1)
 
         # Fifth row
-        self.validate_button = ctk.CTkButton(self, text='Validate', 
+        self._validate_button = ctk.CTkButton(self, text='Validate', 
                                              width=self.BUTTON_WIDTH, 
-                                             command=self.validate_button_pressed,
+                                             command=self._validate_button_pressed,
                                              state='disabled')
  
 
         # Grid the initial state
-        self.title.grid(**self.TITLE_LOCATION)
-        self.species_label.grid(**self.SPECIES_LABEL_LOCATION)   
+        self._title.grid(**self.TITLE_LOCATION)
+        self._species_label.grid(**self.SPECIES_LABEL_LOCATION)   
         self.species_frame_initial.grid(**self.SPECIES_FRAME_LOCATION)
-        self.source_label.grid(**self.SOURCE_LABEL_LOCATION)
+        self._source_label.grid(**self.SOURCE_LABEL_LOCATION)
         self.source_frame_initial.grid(**self.SOURCE_FRAME_LOCATION)
-        self.validate_button.grid(**self.VALIDATE_BUTTON_LOCATION)
+        self._validate_button.grid(**self.VALIDATE_BUTTON_LOCATION)
 
 
-    def test(self) -> None:
+    def _test(self) -> None:
         print('not implemented')
 
-    def search_in_database(self, test_name: str) -> list[DictWithScore[BirdDict]]:
+    def _search_in_database(self, test_name: str) -> list[DictWithScore[BirdDict]]:
         bridge = UserLocalDBBridge()
         possible_species_with_scores: list[DictWithScore[BirdDict]] = bridge.fuzzy_search_species_ebird(test_name)
         bridge.close_connection()
         return possible_species_with_scores
 
-    def add_species_to_menu(self, species_with_scores: list[DictWithScore[BirdDict]]) -> None:
+    def _add_species_to_menu(self, species_with_scores: list[DictWithScore[BirdDict]]) -> None:
         dropdown_options: list[str] = [self.REJECT_OPTIONS]
         for species_data, score in species_with_scores:
             dropdown_options.append(f"{species_data['common_name']} ({score}% match)")
-        self.species_dropdown.configure(values = dropdown_options)
+        self._species_dropdown.configure(values = dropdown_options)
         return None
 
-    def add_subspecies_to_menu(self, subspecies_list: list[SubspeciesDict]) -> None:
+    def _add_subspecies_to_menu(self, subspecies_list: list[SubspeciesDict]) -> None:
         dropdown_options: list[str] = []
         for subspecies in subspecies_list:
             dropdown_options.append(subspecies['common_name'])
-        self.subspecies_dropdown.configure(values = dropdown_options)
+        self._subspecies_dropdown.configure(values = dropdown_options)
         return None
 
 
-    def find_species_pressed(self) -> None:
+    def _find_species_pressed(self) -> None:
         self.species_error_label.grid_forget()
         species_name: str = self.species_name_input.get()
         if species_name == '':
             return None
-        self.possible_species_with_scores: list[DictWithScore[BirdDict]] = self.search_in_database(species_name)
+        self.possible_species_with_scores: list[DictWithScore[BirdDict]] = self._search_in_database(species_name)
         if self.possible_species_with_scores == []:
             self.species_error_label.configure(text='No species found. Double check the name!')
             self.species_error_label.grid(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
@@ -438,16 +436,16 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         
         self.species_frame_initial.grid_forget()
 
-        self.add_species_to_menu(self.possible_species_with_scores)
+        self._add_species_to_menu(self.possible_species_with_scores)
 
         self.species_frame_dropdown.grid(**self.SPECIES_FRAME_LOCATION)
         return None
 
-    def confirm_species_pressed(self) -> None:
-        picked_option: str = self.species_dropdown.get()
+    def _confirm_species_pressed(self) -> None:
+        picked_option: str = self._species_dropdown.get()
         if picked_option == self.REJECT_OPTIONS:
             # Reset to previous state
-            self.species_dropdown.configure(values=[self.REJECT_OPTIONS])
+            self._species_dropdown.configure(values=[self.REJECT_OPTIONS])
             self.species_frame_dropdown.grid_forget()
             self.species_frame_initial.grid()
             return None
@@ -459,25 +457,25 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.species_frame_confirmed.grid(**self.SPECIES_FRAME_LOCATION)
         return None
 
-    def subspecies_toggle_pressed(self) -> None:
+    def _subspecies_toggle_pressed(self) -> None:
         state:bool = self.subspecies_toggle_var.get()
         if not state:
             self.subspecies_frame_parent.grid_forget()
             return None
-        if self.subspecies_dropdown.cget('values') == []:
+        if self._subspecies_dropdown.cget('values') == []:
             species_code: str = self.picked_species_data['eBird_code']
             bridge = EBirdBridge()
             possible_subspecies: Optional[list[SubspeciesDict]] = bridge.retrieve_subspecies(species_code)
             if possible_subspecies is None:
                 raise ConnectionError('Something went wrong while connecting to eBird')
             self.possible_subspecies: list[SubspeciesDict] = possible_subspecies
-            self.add_subspecies_to_menu(self.possible_subspecies)
+            self._add_subspecies_to_menu(self.possible_subspecies)
             bridge.close_connection()
         self.subspecies_frame_parent.grid(**self.SUBSPECIES_FRAME_LOCATION)
         return None
 
-    def confirm_subspecies_pressed(self) -> None:
-        picked_option: str = self.subspecies_dropdown.get()
+    def _confirm_subspecies_pressed(self) -> None:
+        picked_option: str = self._subspecies_dropdown.get()
         if picked_option is None:
             return None
         for data in self.possible_subspecies:
@@ -488,34 +486,34 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.subspecies_frame_confirmed.grid(row=0, column=1)
         return None
 
-    def confirm_source_pressed(self) -> None:
+    def _confirm_source_pressed(self) -> None:
         raise NotImplementedError
 
-    def suborg_toggle_pressed(self) -> None:
+    def _suborg_toggle_pressed(self) -> None:
         raise NotImplementedError
 
-    def confirm_suborg_pressed(self) -> None:
+    def _confirm_suborg_pressed(self) -> None:
         raise NotImplementedError
 
-    def validate_button_pressed(self) -> None:
+    def _validate_button_pressed(self) -> None:
         raise NotImplementedError
 
 class ScreenEditPin(ctk.CTkFrame):
 
-    def test(self):
+    def _test(self):
         print('not implemented')
 
     pass
 
 class ScreenEnterNewSource(ctk.CTkFrame):
 
-    def test(self):
+    def _test(self):
         print('not implemented')
     pass
 
 class ScreenEditSource(ctk.CTkFrame):
 
-    def test(self):
+    def _test(self):
         print('not implemented')
     pass
 
