@@ -29,7 +29,7 @@ def logged(print_args: bool = True):
                 result_length = 0
             if result_length > 20:
                 end_message += f' with result of length {result_length}'
-            elif not result == None:
+            elif not result is None:
                 end_message += f' with the result \n {result}'
             end_message += f' \n taking {end - start} seconds.'
             logger.info(end_message)
@@ -102,7 +102,7 @@ class App(ctk.CTk):
         self.current_window.grid_forget()
         possible_new_window: ctk.CTkFrame | None = self.screens[new_window_name]
         new_window: ctk.CTkFrame
-        if possible_new_window == None:
+        if possible_new_window is None:
             new_window = self.screen_types[new_window_name](self)
         else:
             new_window = possible_new_window
@@ -434,10 +434,10 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _find_species_pressed(self) -> None:
         self.species_error_label.grid_forget()
         species_name: str = self.species_name_input.get()
-        if species_name == '':
+        if not species_name:
             return None
         self.possible_species_with_scores: list[DictWithScore[BirdDict]] = self._search_in_database(species_name)
-        if self.possible_species_with_scores == []:
+        if not self.possible_species_with_scores:
             self.species_error_label.configure(text='No species found. Double check the name!')
             self.species_error_label.grid(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
             return None
@@ -507,7 +507,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         bridge = UserLocalDBBridge()
         source_list: list[SourceDict] = bridge.retrieve_sources(source_type)
         bridge.close_connection()
-        if source_list == []:
+        if not source_list:
             self.source_dropdown.configure(state=ctk.DISABLED)
             return None
         options: list[str] = []
@@ -525,7 +525,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
 
     def _confirm_source_pressed(self) -> None:
         picked_source: str = self.source_dropdown.get()
-        if picked_source == '':
+        if not picked_source:
             return None
         self.picked_source_label.configure(text=picked_source)
         self.source_frame_initial.grid_forget()
@@ -536,7 +536,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         bridge = UserLocalDBBridge()
         subgroups: list[SubgroupDict] = bridge.retrieve_subgroups(picked_source)
         bridge.close_connection()
-        if subgroups == []:
+        if not subgroups:
             self._subgroup_toggle.grid_forget()
             return None
         self._add_subgroups_to_menu(subgroups)
@@ -552,7 +552,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
 
     def _confirm_subgroup_pressed(self) -> None:
         picked_subgroup: str = self._subgroup_dropdown.get()
-        if picked_subgroup == '':
+        if not picked_subgroup:
             return None
         self.picked_subgroup_label.configure(text=picked_subgroup)
         self.subgroup_frame_initial.grid_forget()

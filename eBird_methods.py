@@ -46,7 +46,7 @@ def logged(print_args: bool = True):
                 result_length = 0
             if result_length > 20:
                 end_message += f' with result of length {result_length}'
-            elif not result == None:
+            elif not result is None:
                 end_message += f' with the result \n {result}'
             end_message += f' \n taking {end - start} seconds.'
             logger.info(end_message)
@@ -392,6 +392,8 @@ class UserLocalDBBridge(UserBridge):
         for subgroup in filter(lambda x: x['parent'] == source, unfiltered_data):
             filtered_data.append(subgroup)
         return filtered_data
+    
+
 
     def close_connection(self) -> None:
         self.LocalDBInterface.close_connection()
