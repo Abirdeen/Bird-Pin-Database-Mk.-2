@@ -559,7 +559,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
     def _validate_button_pressed(self) -> None:
-        picked_species: str = self._species_dropdown.get()
+        picked_species: str = self.picked_species_data['common_name']
         is_subspecies: bool = self._subspecies_toggle.get()
         picked_subspecies: str | None = None
         if is_subspecies:
