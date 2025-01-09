@@ -589,6 +589,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         bridge.LocalDBInterface.pin_table.add_data([pin])
         bridge.close_connection()
 
+        self._validate_button.configure(state=ctk.DISABLED, text='Validated')
         return None
 
 class ScreenEditPin(ctk.CTkFrame):
