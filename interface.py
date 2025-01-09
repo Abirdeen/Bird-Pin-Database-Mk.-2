@@ -191,7 +191,8 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self._species_find_button.grid(**self.SPECIES_FRAME_LAYOUT['BUTTON_LOCATION'])
         self.species_error_label = ctk.CTkLabel(self.species_frame_initial, text='', text_color='red', 
                                                 font=ctk.CTkFont(family="Arial", size=10))
-        self.species_error_label.grid_configure(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
+        self.species_error_label.grid(**self.SPECIES_FRAME_LAYOUT['ERROR_LABEL_LOCATION'])
+        self.species_error_label.grid_forget()
         return None
 
     def _layout_species_frame_dropdown(self) -> None: 
