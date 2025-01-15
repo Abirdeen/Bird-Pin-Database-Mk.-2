@@ -394,7 +394,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         # Load details if editing pin entry
         if not pin_details is None:
             self._set_initial_values(pin_details)
-
+            
         # Grid the initial state
         self._title.grid(**self.TITLE_LOCATION)
         self._species_label.grid(**self.SPECIES_LABEL_LOCATION)   
@@ -403,6 +403,26 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         self.source_frame_initial.grid(**self.SOURCE_FRAME_LOCATION)
         self._validate_button.grid(**self.VALIDATE_BUTTON_LOCATION)
 
+    def _find_source_type(self, source_name: str) -> str:
+        bridge = UserLocalDBBridge()
+        sources: list[SourceDict] = bridge.LocalDBInterface.source_table.get_data()
+        source_type: str
+        for source in sources:
+            if source['name'] is source_name:
+                source_type = source['type']
+        return source_type
+
+    def _set_initial_values(self, pin_details: PinDict) -> None:
+        source_type: str = self._find_source_type(pin_details['source'])
+
+        self.species_name_input.set(pin_details['species'])
+        if pin_details['subspecies']:
+            self.picked_subspecies.set(pin_details['subspecies'])
+        self.picked_source_type.set(source_type)
+        self.picked_source.set(pin_details['source'])
+        if pin_details['subgroup']:
+            self.subgroup_toggle_var.set(True)
+            self.picked_subgroup.set(pin_details['subgroup'])
 
     def _search_in_database(self, test_name: str) -> list[DictWithScore[BirdDict]]:
         bridge = UserLocalDBBridge()
