@@ -5,7 +5,7 @@ import time
 from typing import Optional, Literal
 
 from PIL import Image
-import customtkinter as ctk
+import customtkinter as ctk #type: ignore
 
 from eBird_methods import UserLocalDBBridge, EBirdBridge
 from eBird_methods import DataDict, DictWithScore, BirdDict, SubspeciesDict, SupergroupDict, SourceDict, SubgroupDict, PinDict
@@ -54,6 +54,12 @@ class App(ctk.CTk):
         self.WINDOW_SETTINGS: dict[str, object] = {'row': 1, 'column': 0, 'columnspan': 2, 
                                                    'padx': 20, 'pady': 20, 
                                                    'sticky': ctk.NSEW}
+
+        # String constants
+        self.TYPE_CHARITY = 'Charity'
+        self.TYPE_ARTIST = 'Artist'
+        self.TYPE_OTHER = 'Other'
+        self.SOURCE_TYPE_OPTIONS = [self.TYPE_CHARITY, self.TYPE_ARTIST, self.TYPE_OTHER]
 
         # Home button
         home_icon = Image.open("./assets/Birdhouse icon blue.png")
@@ -244,7 +250,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
     def _layout_source_frame_initial(self) -> None:
         self.picked_source_type = ctk.StringVar()
         self.source_type_dropdown = ctk.CTkComboBox(self.source_frame_initial, 
-                                                   values=['Charity', 'Artist', 'Other'], 
+                                                   values=self._SOURCE_TYPE_OPTIONS, 
                                                    variable=self.picked_source_type,
                                                    command=self._source_type_dropdown_changed)
         self.source_type_dropdown.grid(**self.SOURCE_FRAME_LAYOUT['TYPE_DROPDOWN_LOCATION'])    
@@ -295,16 +301,19 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
 
-    def __init__(self, master, **kwargs) -> None:
+    def __init__(self, master: App, **kwargs) -> None:
         super().__init__(master, **kwargs)
 
         # Class-scoped variables
         self.picked_species_data: BirdDict
         self.picked_subspecies_data: SubspeciesDict
 
+        # String constants
+        self._SOURCE_TYPE_OPTIONS = master.SOURCE_TYPE_OPTIONS
+
         # --------------------Layout-------------------- #
 
-        # Local constants
+        # Layout constants
         self.BUTTON_WIDTH: int = 20
         self.LONG_BOX_WIDTH: int = 300
         self.REJECT_OPTIONS: str = 'None of the above'
@@ -602,7 +611,90 @@ class ScreenEditPin(ctk.CTkFrame):
 
 class ScreenEnterNewSource(ctk.CTkFrame):
 
-    def _test(self):
+    def __init__(self, master: App, **kwargs):
+        super().__init__(master, **kwargs)
+
+        # # Class-scoped variables
+        # self.picked_species_data: BirdDict
+        # self.picked_subspecies_data: SubspeciesDict
+
+        # String constants
+
+        self._SOURCE_TYPE_OPTIONS = master.SOURCE_TYPE_OPTIONS
+
+        # # --------------------Layout-------------------- #
+
+        # name: str
+        # type: str
+        # short_name: str | None
+        # description: str | None
+        # parent: str | None
+        # website: str | None
+
+        self._title = ctk.CTkLabel(self, text='Enter new source',
+                                   font=ctk.CTkFont(family="Arial", size=20, weight="bold"))
+
+        self._picked_type_variable = ctk.StringVar()
+        self._type_dropdown = ctk.CTkComboBox(self, values=self._SOURCE_TYPE_OPTIONS, 
+                                              variable=self._picked_type_variable)
+        self._source_fullname = ctk.StringVar()
+        self._source_fullname_box = ctk.CTkEntry(self, textvariable=self._source_fullname)
+        self._source_shortname = ctk.StringVar()
+        self._source_shortname_box = ctk.CTkEntry(self, textvariable=self._source_shortname)
+
+        self._source_description_box = ctk.CTkTextbox(self)
+
+        self._website_name = ctk.StringVar()
+        self._website_box = ctk.CTkEntry(self, textvariable=self._website_name)
+        self._validate_website_button = ctk.CTkButton(self, command=self._validate_website_button_pressed)
+
+        self._submit_source_button = ctk.CTkButton(self, command=self._submit_source_button_pressed)
+
+        # Title
+        # [Source Type] [Source Name] [Short name]
+        # [Description]
+        # [Wesbite] [Validate link]
+
+        # # Local constants
+        # self.BUTTON_WIDTH: int = 20
+        # self.LONG_BOX_WIDTH: int = 300
+        # self.REJECT_OPTIONS: str = 'None of the above'
+
+        # self.TITLE_LOCATION: dict[str, int] = {'row': 0, 'column': 0, 'columnspan': 4, 
+        #                                        'padx': 10, 'pady': 10}
+
+        # self.SPECIES_FRAME_LAYOUT: dict[str, dict[str, int]] = {'NAME_LOCATION': {'row': 0, 'column': 1, 
+        #                                                                           'columnspan': 2}, 
+        #                                                         'BUTTON_LOCATION':{'row': 0, 'column': 3},
+        #                                                         'ERROR_LABEL_LOCATION':{'row': 1, 'column': 1,
+        #                                                                                 'columnspan': 2}}
+
+
+        # # Title
+        # self._title = ctk.CTkLabel(self, text='Enter new pin details', 
+        #                           font=ctk.CTkFont(family="Arial", size=20, weight="bold"))
+
+        # # Possible states for the first row
+        # self._species_label = ctk.CTkLabel(self, text='Species: ')
+
+        # self.species_frame_initial = ctk.CTkFrame(self)
+        # self._layout_species_frame_initial()
+        # self.species_frame_dropdown = ctk.CTkFrame(self)
+        # self._layout_species_frame_dropdown()
+        # self.species_frame_confirmed = ctk.CTkFrame(self)
+        # self._layout_species_frame_confirmed()
+
+        # # Grid the initial state
+        # self._title.grid(**self.TITLE_LOCATION)
+        raise NotImplementedError
+    
+    def _validate_website_button_pressed() -> None:
+        raise NotImplementedError
+
+    def _submit_source_button_pressed() -> None:
+        raise NotImplementedError
+
+    def _test(self) -> None:
         print('not implemented')
     pass
 

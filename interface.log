@@ -1657,3 +1657,9 @@ INFO:interface:Started running main with the arguments
 INFO:interface:Finished running main 
  taking 255.70606684684753 seconds.
 INFO:interface:----------------end log-----------------
+INFO:interface:---------------begin log----------------
+INFO:interface:Started running main with the arguments 
+ (), {}
+INFO:interface:Finished running main 
+ taking 32.2263605594635 seconds.
+INFO:interface:----------------end log-----------------

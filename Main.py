@@ -5,3 +5,8 @@
 # -- Substep: Initialise local database (close database connection when done)
 # -- Substep: ?
 # Step 2: Load the splash screen
+
+
+# Potentially nice features: 
+# when doing a search, if too many results are found, try prepending with one of 
+# 'European', 'Eurasian', 'Common', 'Wild', 'Western'
