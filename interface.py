@@ -295,15 +295,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
         return None
 
 
-    def __init__(self, master, **kwargs) -> None:
-        super().__init__(master, **kwargs)
-
-        # Class-scoped variables
-        self.picked_species_data: BirdDict
-        self.picked_subspecies_data: SubspeciesDict
-
-        # --------------------Layout-------------------- #
-
+    def _layout_screen(self) -> None:
         # Local constants
         self.BUTTON_WIDTH: int = 20
         self.LONG_BOX_WIDTH: int = 300
@@ -335,6 +327,7 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                                                                       'columnspan': 2}}
         self.SUBGROUP_FRAME_LAYOUT: dict[str, dict[str,int]] = {'DROPDOWN_LOCATION': {'row': 0, 'column': 1},
                                                               'BUTTON_LOCATION':{'row': 0, 'column': 2}}
+
 
         # Title
         self._title = ctk.CTkLabel(self, text='Enter new pin details', 
@@ -387,7 +380,20 @@ class ScreenEnterNewPin(ctk.CTkFrame):
                                              width=self.BUTTON_WIDTH, 
                                              command=self._validate_button_pressed,
                                              state='disabled')
- 
+
+        raise NotImplementedError
+
+    def __init__(self, master, pin_details: Optional[PinDict] = None, **kwargs) -> None:
+        super().__init__(master, **kwargs)
+
+        self.picked_species_data: BirdDict
+        self.picked_subspecies_data: SubspeciesDict
+
+        self._layout_screen()
+
+        # Load details if editing pin entry
+        if not pin_details is None:
+            self._set_initial_values(pin_details)
 
         # Grid the initial state
         self._title.grid(**self.TITLE_LOCATION)
