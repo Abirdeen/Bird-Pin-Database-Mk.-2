@@ -5,7 +5,7 @@ import time
 from typing import Optional, Literal
 
 from PIL import Image
-import customtkinter as ctk
+import customtkinter as ctk #type: ignore[import-untyped]
 
 from eBird_methods import UserLocalDBBridge, EBirdBridge
 from eBird_methods import DataDict, DictWithScore, BirdDict, SubspeciesDict, SupergroupDict, SourceDict, SubgroupDict, PinDict
